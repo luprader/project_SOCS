@@ -1,0 +1,3 @@
+[submodule "project_SOCS_code"]
+	path = project_SOCS_code
+	url = git@github.com:luprader/project_SOCS_code.git
