@@ -1,0 +1,10 @@
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*Notes.bib
+/project_report/template-FFR120-FYM119-blindtextNotes.bib
