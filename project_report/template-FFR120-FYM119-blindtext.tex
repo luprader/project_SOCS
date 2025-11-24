@@ -23,7 +23,7 @@
 
 \begin{document}
 
-\title{[T2.1] Characterizing Shortest-Path Ensembles for Brain Network Modeling Using Empirical Constraints}% Force line breaks with \\
+\title{[T2.1] Characterizing Shortest-Path Ensembles for Brain Network Modeling \\ Using Empirical Constraints}% Force line breaks with \\
 
 \author{Daniel Peña Fonseca}
 \author{Lukas Prader}
@@ -35,7 +35,7 @@
 %%% - B1 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B1 - and - E1 - must not appear in the final report 
 \noindent
-Understanding how anatomical pathways manage the flow of information in the human brain remains a fundamental challenge in (network) neuroscience. Parametric models, particularly the Shortest Path Ensembles (SPE), provides a framework for simulating communication between different regions of interest (ROIs) not only through the shortest route, but also through a set of nearly-optimal alternatives. Nevertheless, the number and relative weighing of these shortest paths that would best approximate empirical results, remain unknown. Using structural connectomes and applying roulette-wheel selection to assign higher probabilities to shorter paths, this article addresses this question by varying the number of paths considered to determine which range minimizes discrepancies between empirical data and simulated results. Conceptually, increasing the number of allowed paths captures the biological intuition that communication may occur along nearly-optimal routes rather than following unique trail (shortest path): yet too many paths may introduce biologically improbable detours. Our results indicate that the lowest mismatch with empirical observation occurs when only considering paths of length shorter than 130\% of the shortest path extent. These finding suggest that human's brain communication might me best described by a selective yet flexible nearly-optimal trails, rather than diffusive or shortest-path propagation. 
+Understanding how anatomical pathways manage the flow of information in the human brain remains a fundamental challenge in (network) neuroscience. Parametric models, particularly the Shortest Path Ensembles (SPE), provide a framework for simulating communication between different regions of interest (ROIs) not only through the shortest route, but also through a set of alternatives (near-shortest paths) based on model parameters. Nevertheless, the number and relative weighing of these near-shortest paths that would best approximate empirical results, remain unknown. Conceptually, a small number of allowed paths captures the biological intuition that brain communication makes use of structural information to use optimal routing, while a large number of allowed paths describes a transmission without the use of any encoded structural information. Using structural connectomes and then simulating signal outputs over time, this report addresses this question by varying the number of paths considered to determine which range minimizes discrepancies between empirical data (connectomes and functional MRIs) and simulated results.
 %%% - E1 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{description} %%% DO NOT CHANGE!
@@ -82,7 +82,7 @@ Use the bib file {\tt biblio-FFR120-FYM119.bib} (provided with this template) fo
 %%% - B3 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B3 - and - E3 - must not appear in the final report 
 \noindent
-With the goal of exploring the connection of structural connections between brain regions to functional correlations in brain activity, connectome data can be used to simulate brain activity using a range of Brain Network Communication Models (BNCMs) \cite{review_methods}. While routing protocol based models assume that the network operates with a lot of information about its structure and mainly communicates through the most efficient (shortest) paths; diffusion models assume that information propagates without any use of structural information, taking more inefficient paths with higher metabolic transmission cost. So-called parametric models are located between these extremes, attempting to use rules that can balance the amount of information that is used in transmissions. Examples of this type of frameworks include linear threshold models, biased random walks and shortest path ensembles. A common property among them is their ability to be tuned via a parameter, measuring how far the model should lean towards diffusion-type models or routing protocol approaches.
+With the goal of exploring the relation of structural connections between brain regions to functional correlations in brain activity, connectome data can be used to simulate brain activity using a range of Brain Network Communication Models (BNCMs) \cite{review_methods}. While routing protocol based models assume that the network operates with a lot of information about its structure and mainly communicates through the most efficient (shortest) paths; diffusion models assume that information propagates without any use of structural information, taking more inefficient paths with higher metabolic transmission cost. So-called parametric models are located between these extremes, attempting to use rules that can balance the amount of information that is used in transmissions. Examples of this type of frameworks include linear threshold models, biased random walks and shortest path ensembles. A common property among them is their ability to be tuned via a parameter, measuring how far the model should lean towards diffusion-type models or routing protocol approaches.
 
 % They all have in common that they can be tuned using a parameter
 
@@ -96,19 +96,19 @@ With the goal of exploring the connection of structural connections between brai
     \hline
     \textbf{Method / Model} & \textbf{Use case scenario} & \textbf{Features} & \textbf{Suitable for the project?} \\
     \hline
-    \parbox[t]{0.165\linewidth}{Linear threshold model} &
-    \parbox[t]{0.165\linewidth}{looking at signal propagation based on the state of neighbouring nodes} &
-    \parbox[t]{0.318\linewidth}{neighbour transmission threshold} &
+    \parbox[t]{0.125\linewidth}{Linear threshold model} &
+    \parbox[t]{0.305\linewidth}{looking at signal propagation based on the state of neighbouring nodes} &
+    \parbox[t]{0.19\linewidth}{neighbour transmission threshold} &
     \parbox[t]{0.318\linewidth}{uses activation state to determine propagation, focused on direct structural influence} \\
     \hline
-    \parbox[t]{0.165\linewidth}{Biased random walk} & 
-    \parbox[t]{0.165\linewidth}{investigating the potential impact of structural information on random walk dynamics} &
-    \parbox[t]{0.318\linewidth}{transition bias, amount of structural information allowed to influence random transitions} &
+    \parbox[t]{0.125\linewidth}{Biased random walk} & 
+    \parbox[t]{0.305\linewidth}{investigating the potential impact of structural information on random walk dynamics} &
+    \parbox[t]{0.19\linewidth}{transition bias, amount of structural information allowed to influence random transitions} &
     \parbox[t]{0.318\linewidth}{can be used to study the concrete relationship between structural properties and patterns in time correlation} \\
     \hline
-    \parbox[t]{0.165\linewidth}{Shortest path ensembles} & 
-    \parbox[t]{0.165\linewidth}{analysing behaviour related to perturbations of the optimal path and the relevance of the optimal path in relation to other alternatives} &
-    \parbox[t]{0.318\linewidth}{number of next shortest paths $k$} &
+    \parbox[t]{0.125\linewidth}{Shortest path ensembles} & 
+    \parbox[t]{0.305\linewidth}{analysing behaviour related to perturbations of the optimal path and the relevance of the optimal path in relation to other alternatives} &
+    \parbox[t]{0.19\linewidth}{number of next shortest paths $k$} &
     \parbox[t]{0.318\linewidth}{can be used to closely explore differences in efficiency between paths related to, but deviating from optimal (ideal) path routing} \\
     \hline
 \end{tabular*}
