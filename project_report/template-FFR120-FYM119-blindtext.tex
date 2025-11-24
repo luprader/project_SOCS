@@ -12,6 +12,9 @@
 \usepackage{dcolumn}% Align table columns on decimal point
 \usepackage{bm}% bold math
 \usepackage{hyperref}% add hypertext capabilities
+\usepackage{array} % for better column types
+\usepackage{caption} % optional for better captions
+\usepackage{tabularx}
 %\usepackage[mathlines]{lineno}% Enable numbering of text and display math
 %\linenumbers\relax % Commence numbering lines
 \usepackage{xcolor}
@@ -20,7 +23,7 @@
 
 \begin{document}
 
-\title{[T2.1] Project Title (This the title of your project, and not the title of the chosen project topic)}% Force line breaks with \\
+\title{[T2.1] Characterizing Shortest-Path Ensembles for Brain Network Modeling Using Empirical Constraints}% Force line breaks with \\
 
 \author{Daniel Peña Fonseca}
 \author{Lukas Prader}
@@ -32,12 +35,7 @@
 %%% - B1 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B1 - and - E1 - must not appear in the final report 
 \noindent
-\fbox{\parbox[t][][t]{0.77\columnwidth}{
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{5}} out of \textbf{44} \\
-Here goes the abstract of your project. No references in the abstract! 
-The following part in \textcolor{cyan}{cyan} is just blind text that shows \emph{approximately} how long the text in each part should look like. {\bf USE OVERLEAF!!!}
-}} 
-\textcolor{cyan}{Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? }
+Understanding how anatomical pathways manage the flow of information in the human brain remains a fundamental challenge in (network) neuroscience. Parametric models, particularly the Shortest Path Ensembles (SPE), provides a framework for simulating communication between different regions of interest (ROIs) not only through the shortest route, but also through a set of nearly-optimal alternatives. Nevertheless, the number and relative weighing of these shortest paths that would best approximate empirical results, remain unknown. Using structural connectomes and applying roulette-wheel selection to assign higher probabilities to shorter paths, this article addresses this question by varying the number of paths considered to determine which range minimizes discrepancies between empirical data and simulated results. Conceptually, increasing the number of allowed paths captures the biological intuition that communication may occur along nearly-optimal routes rather than following unique trail (shortest path): yet too many paths may introduce biologically improbable detours. Our results indicate that the lowest mismatch with empirical observation occurs when only considering paths of length shorter than 130\% of the shortest path extent. These finding suggest that human's brain communication might me best described by a selective yet flexible nearly-optimal trails, rather than diffusive or shortest-path propagation. 
 %%% - E1 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{description} %%% DO NOT CHANGE!
@@ -84,53 +82,46 @@ Use the bib file {\tt biblio-FFR120-FYM119.bib} (provided with this template) fo
 %%% - B3 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B3 - and - E3 - must not appear in the final report 
 \noindent
-\fbox{\parbox[t][][t]{\columnwidth}{
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{6}} out of \textbf{44}
+With the goal of exploring the connection of structural connections between brain regions to functional correlations in brain activity, connectome data can be used to simulate brain activity using a range of Brain Network Communication Models (BNCMs) \cite{review_methods}. While routing protocol based models assume that the network operates with a lot of information about its structure and mainly communicates through the most efficient (shortest) paths; diffusion models assume that information propagates without any use of structural information, taking more inefficient paths with higher metabolic transmission cost. So-called parametric models are located between these extremes, attempting to use rules that can balance the amount of information that is used in transmissions. Examples of this type of frameworks include linear threshold models, biased random walks and shortest path ensembles. A common property among them is their ability to be tuned via a parameter, measuring how far the model should lean towards diffusion-type models or routing protocol approaches.
 
-{In this section you provide an overview of the state of the art, related work and methods. Mention the methods that you could apply in your project, highlighting their use case scenarios, their features with advantages and disadvantages, and state whether they can be appropriate to use in your project. After this overview, you should state the method/model that you choose and also provide the motivation of your choice.
-Make a table (see below) to summarize this discussion. Refer to the table (Tab.~\ref{tab:methodsoverview}) in the text.} 
-}}
+% They all have in common that they can be tuned using a parameter
 
-\begin{table*}
-    \caption{{\bf Overview of simulation methods/models (change this table title with something more appropriate).} Write some explanatory text for the table. This table contain bilndtext for example purpose. \textcolor{blue}{\bf A table describing the Overview methods/models is MANDATORY.} Missing to include one causes a {\bf deduction} (-3 points). 
-} 
-    \label{tab:methodsoverview}
-    %\begin{tabular}{|p{2cm}|p{3cm}|p{6cm}|p{6cm}|} % this line might not work in Overleaf
-    \begin{tabular}{|c|c|c|c|} % If the above does not work, use this one, or: \begin{tabular}{|l|l|l|l|}
+\begin{table*}[t]
+\caption{\textbf{Overview of simulation methods and metrics.}}
+\label{tab:methodsoverview}
+
+% I dont like what I have written in the table, it is hard to write stuff for these kinds of "scenarions" etc
+
+\begin{tabular*}{\textwidth}{|c|c|c|c|}
     \hline
-       {\bf Method / Model }  &  {\bf Use case scenario }   &  {\bf Features }  &  {\bf Suitable for the project? }   \\ 
+    \textbf{Method / Model} & \textbf{Use case scenario} & \textbf{Features} & \textbf{Suitable for the project?} \\
     \hline
-        \textcolor{cyan}{Insert name 1}  & 
-        \textcolor{cyan}{Mention where it is used} & 
-        \textcolor{cyan}{Brief description} & 
-        \textcolor{cyan}{Brief motivation} \\
+    \parbox[t]{0.165\linewidth}{Linear threshold model} &
+    \parbox[t]{0.165\linewidth}{looking at signal propagation based on the state of neighbouring nodes} &
+    \parbox[t]{0.318\linewidth}{neighbour transmission threshold} &
+    \parbox[t]{0.318\linewidth}{uses activation state to determine propagation, focused on direct structural influence} \\
     \hline
-        \textcolor{cyan}{Insert name 2}  & 
-        \textcolor{cyan}{Mention where it is used} & 
-        \textcolor{cyan}{Brief description} & 
-        \textcolor{cyan}{Brief motivation} \\
+    \parbox[t]{0.165\linewidth}{Biased random walk} & 
+    \parbox[t]{0.165\linewidth}{investigating the potential impact of structural information on random walk dynamics} &
+    \parbox[t]{0.318\linewidth}{transition bias, amount of structural information allowed to influence random transitions} &
+    \parbox[t]{0.318\linewidth}{can be used to study the concrete relationship between structural properties and patterns in time correlation} \\
     \hline
-        \textcolor{cyan}{Insert name 2}  & 
-        \textcolor{cyan}{Mention where it is used} & 
-        \textcolor{cyan}{Brief description} & 
-        \textcolor{cyan}{Brief motivation} \\
+    \parbox[t]{0.165\linewidth}{Shortest path ensembles} & 
+    \parbox[t]{0.165\linewidth}{analysing behaviour related to perturbations of the optimal path and the relevance of the optimal path in relation to other alternatives} &
+    \parbox[t]{0.318\linewidth}{number of next shortest paths $k$} &
+    \parbox[t]{0.318\linewidth}{can be used to closely explore differences in efficiency between paths related to, but deviating from optimal (ideal) path routing} \\
     \hline
-    \end{tabular}
+\end{tabular*}
+
 \end{table*}
 
-\textcolor{cyan}{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. }
 
-{\bf Method 1 (substitute with the name of the method).} {[Discuss the use case scenarios of the method, their features with advantages and disadvantages / strong and weak points, and whether it is more or less suitable for the research question. It is a good idea to reference the literature \cite{prenom2017find, surname1999peer}.]} 
-\textcolor{cyan}{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. }
+{\bf Method 1 (Linear threshold models).} {In this approach, signals are transmitted based on the number of neighbours $n$ that have received a signal already. The number necessary for a signal to be transmitted is the parameter that can be varied in this model. If $n=0$ the system resembles free broadcasting diffusion through the system, every node propagates the signal to its neighbours. With higher values the range of reachable nodes decreases until it becomes very localised for large values of $n$.}
 
-{\bf Method 2 (substitute with the name of the method).} {[Discuss the use case scenarios of the method, their features with advantages and disadvantages / strong and weak points, and whether it is more or less suitable for the research question. It is a good idea to reference the literature \cite{prenom2017find, surname1999peer}.]} 
-\textcolor{cyan}{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. }
+{\bf Method 2 (Biased random walks).} {In this framework, the transmissions are modelled as random walks with transition probabilities between nodes being biased depending on the topological properties, i.e. their distance to the shortest path considering a specific target node. Depending on the amount of information used to bias the transition, the result will resemble that of a purely random walk or a shortest path trajectory.}
 
-{\bf Method 3 (substitute with the name of the method).} {[Discuss the use case scenarios of the method, their features with advantages and disadvantages / strong and weak points, and whether it is more or less suitable for the research question. It is a good idea to reference the literature \cite{prenom2017find, surname1999peer}.]} 
-\textcolor{cyan}{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. }
+{\bf Method 3 (Shortest path ensembles).} {Instead of only using the shortest path to some target node, one can consider all k-shortest paths, which are the ones most closely resembling the optimal path. The number $k$ of considered paths determines if the system more closely resembles that of shortest path routing or random walk paths.}
 
-\textcolor{cyan}{[If it makes sense, add more methods in the overview.]} 
-\textcolor{cyan}{\lipsum[7]}
 %%% - E3 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -150,15 +141,37 @@ Make a table (see below) to summarize this discussion. Refer to the table (Tab.~
 \end{figure*}
 
 \noindent
-\fbox{\parbox[t][][t]{\columnwidth}{
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{8}} out of \textbf{44}
+In order to study a wide range of behaviour with one model, the use of a parametric model was chosen as the brain network communication model. In particular, it was decided to use the shortest path ensemble approach. Several metrics will be used to characterize the behaviour of this communication method.
+{\bf Shortest path ensembles (SPE).} {This model proposes that a signal propagating from a one region to another, can only do so  through one of the \textit{k} shortest paths (ensemble) \cite{kshortest_original}. Following the SPE model, each route $i$ will be assigned a probability $P_i$ of the signal communicating through it according to its length $d_i$ \cite{kprobabilities}. To assign higher probabilities to shorter routes, probabilities will be defined as follows:
+\begin{equation}
+    P_i=\frac{1/d_i}{\sum_{i=1}^k (1/d_i)}
+\end{equation}
 
-Provide here the details of the method you have chosen for the project. 
-You should explain and provide enough detail such that your results can be reproduced following your method. 
-Compose a figure that contains / describes your method (mandatory). Refer to the figure (Fig.~\ref{fig:selectedmethod}) when describing the method in the text. 
-You can add a second figure if you believe it is necessary. 
-}}
-\textcolor{cyan}{\lipsum[10-15]}
+This parametric model allows an analysis dependent on the size of the ensemble. Modifying the number of shortest paths considered, \textit{k}, the metrics presented afterwards will be studied, in order to find the range of \textit{k}-values for which the empirical results are most faithfully reproduced. 
+
+While other processes generally present high energy or information costs, SPE not only preserves low delay costs, but also prevents other costs from rising.
+In addition, SPE allows to compare the presence and impact of time delay by comparing paths within the ensemble to each other, making it possible to explore the structural properties which shape the propagation of signals in the proximity of efficient (shortest path) and inefficient (detour) communication routes.
+
+[Discuss the use case scenarios of the method, their features with advantages and disadvantages / strong and weak points, and whether it is more or less suitable for the research question. It is a good idea to reference the literature.]} 
+
+{\bf Functional Correlation (FC).} {In brain-network modelling, this procedure is commonly used to measures the correlation structure of activity time series across brain regions, generally using an FC matrix \cite{general_methods}. Where each element of the matrix is the Pearson correlation coefficient between the time series of two brain regions. With this metric, an exhaustive comparison between empirical outcomes and simulated results will be performed. Although this measure does not cover all the characteristics of a brain's network, it works as a general reference for different ROIs' correlation.
+
+
+% We could say the good and bad parts after describing the methods.
+
+
+
+[Discuss the use case scenarios of the method, their features with advantages and disadvantages / strong and weak points, and whether it is more or less suitable for the research question. It is a good idea to reference the literature]
+
+{\bf Recurrent Quantification Analysis (RQA).} {
+With fMRIs in the form of time series, one can perform analyses on the recurrence of temporal patterns between ROIs. Recurrence plots and information theoretic measures can be used to compare different time series with each other \cite{webber2015recurrence} and will be used to compare simulated results with empirical data.
+These tools usually require domain specific knowledge in order to find good parameter values for the analysis.
+}
+
+{\bf Shannon Entropy Growth Curve.} {
+The Shannon entropy growth curve for a time series of states of a dynamical systems can be used to understand the temporal order of complexity of a system, showing the exact orders of time relevant to the behaviour of the system \cite{crutchfield2003regularities}. It calculates the block entropies for a time series and looks at changes in the growth behaviour.
+It has been used in applications related to Reinforcement Learning and general state estimation in Markov Processes.
+The possible estimation length of the growth curve depends highly on the system and the number of samples, since a naive maximum likelihood estimation is biased to underestimate the entropy.}
 %%% - E4 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
