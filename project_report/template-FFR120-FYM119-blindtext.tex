@@ -69,8 +69,9 @@ Example: $\backslash${\tt cite}$\{${\tt polya1945how}$\}$ gives \cite{polya1945h
 Use the bib file {\tt biblio-FFR120-FYM119.bib} (provided with this template) for the bib items.
 }}
 
-\textcolor{cyan}{\lipsum[4-6]}
-%%% - E2 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 
 
@@ -82,7 +83,18 @@ Use the bib file {\tt biblio-FFR120-FYM119.bib} (provided with this template) fo
 %%% - B3 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B3 - and - E3 - must not appear in the final report 
 \noindent
-With the goal of exploring the relation of structural connections between brain regions to functional correlations in brain activity, connectome data can be used to simulate brain activity using a range of Brain Network Communication Models (BNCMs) \cite{review_methods}. While routing protocol based models assume that the network operates with a lot of information about its structure and mainly communicates through the most efficient (shortest) paths; diffusion models assume that information propagates without any use of structural information, taking more inefficient paths with higher metabolic transmission cost. So-called parametric models are located between these extremes, attempting to use rules that can balance the amount of information that is used in transmissions. Examples of this type of frameworks include linear threshold models, biased random walks and shortest path ensembles. A common property among them is their ability to be tuned via a parameter, measuring how far the model should lean towards diffusion-type models or routing protocol approaches.
+\cite{empirical_network}, \cite{rich_club_2}, \cite{rich_club_original}, , \cite{white_matter}
+
+
+With the goal of exploring the relation of structural connections between brain regions to functional correlations in brain activity, connectome data can be used to simulate brain activity using a range of Brain Network Communication Models (BNCMs) \cite{review_methods} \cite{small_world_brain_networks}. On the one hand, models based on routing protocol assume that the network operates with a substantial amount of information about its structure, and communications mainly occur through the most efficient (shortest) path \cite{review_brain_structure_and_function}\cite{book_graph_brain}. Alternatively, diffusion models assume that information propagates through the brain without any use of structural information, taking more inefficient paths with higher metabolic cost \cite{random_walk}. 
+
+Parametric models are located between these extremes, using rules that balance the amount of topological information used for propagation and the metabolic cost of transmissions. Examples of this type of frameworks include linear threshold models \cite{linear_threshold}, biased random walks \cite{biased_random_walk} and shortest path ensembles \cite{kshortest_original}. A common property among them is their ability to be tuned via a parameter, measuring how far the model should lean towards diffusion-type models or routing protocol approaches.
+
+
+
+
+
+%{\it While routing protocol based models assume that the network operates with a substantial amount of information about its structure and mainly communicates through the most efficient (shortest) paths \cite{review_brain_structure_and_function}\cite{book_graph_brain}; diffusion models assume that information propagates without any use of structural information, taking more inefficient paths with higher metabolic transmission cost \cite{random_walk}. So-called parametric models are located between these extremes, attempting to use rules that can balance the amount of information that is used in transmissions. Examples of this type of frameworks include linear threshold models, biased random walks \cite{biased_random_walk} and shortest path ensembles \cite{kshortest_original}. A common property among them is their ability to be tuned via a parameter, measuring how far the model should lean towards diffusion-type models or routing protocol approaches.}
 
 % They all have in common that they can be tuned using a parameter
 
@@ -116,11 +128,25 @@ With the goal of exploring the relation of structural connections between brain 
 \end{table*}
 
 
-{\bf Method 1 (Linear threshold models).} {In this approach, signals are transmitted based on the number of neighbours $n$ that have received a signal already. The number necessary for a signal to be transmitted is the parameter that can be varied in this model. If $n=0$ the system resembles free broadcasting diffusion through the system, every node propagates the signal to its neighbours. With higher values the range of reachable nodes decreases until it becomes very localised for large values of $n$.}
+{\bf Method 1 (Linear threshold models).} 
+In this approach, signal propagation is determined by the number of neighbouring nodes that have already received the signal \cite{linear_threshold} . Each node in the network will receive the information only if $n$ (or more) of its neighbours had previously received the transmission, making $n$ the tunable parameter of the model. With $n=1$, each node with at least one activated neighbour will receive the signal, resulting in maximal diffusion through broadcasting. Increasing $n$, the conditions for activation become progressively stricter, reducing the propagation along the network. For $n$ sufficiently large, information could get stagnated, reflecting a regime in which only tightly clustered neighbourhoods can sustain transmission.
 
-{\bf Method 2 (Biased random walks).} {In this framework, the transmissions are modelled as random walks with transition probabilities between nodes being biased depending on the topological properties, i.e. their distance to the shortest path considering a specific target node. Depending on the amount of information used to bias the transition, the result will resemble that of a purely random walk or a shortest path trajectory.}
 
-{\bf Method 3 (Shortest path ensembles).} {Instead of only using the shortest path to some target node, one can consider all k-shortest paths, which are the ones most closely resembling the optimal path. The number $k$ of considered paths determines if the system more closely resembles that of shortest path routing or random walk paths.}
+
+
+%{ \it In this approach, signals are transmitted based on the number of neighbours $n$ that have received a signal already. The number necessary for a signal to be transmitted is the parameter that can be varied in this model. If $n=0$ the system resembles free broadcasting diffusion through the system, every node propagates the signal to its neighbours. With higher values the range of reachable nodes decreases until it becomes very localised for large values of $n$.}
+
+{\bf Method 2 (Biased random walks).} 
+In unbiased random walks, the probability of a signal propagating from node $i$ to node $j$ is proportional to the connection weight between these nodes. Alternatively, in biased random walks, transition probabilities are influenced by the amount of global topological information available to individual nodes; which is controlled by the tunable parameter $\lambda$ \cite{review_methods}\cite{biased_random_walk}. With $\lambda=0$, unbiased random walks are recovered, since individual nodes will only posses information regarding their own connections \cite{random_walk}. In contrast, for $\lambda \to \infty$, the biased random walk converges to the shortest path, since each transmission between every two nodes will contain the entire global topological information, leading to optimal paths \cite{book_graph_brain}.
+
+
+%In this framework, the transmissions are modelled as random walks with transition probabilities between nodes being biased depending on the topological properties, i.e. their distance to the shortest path considering a specific target node. Depending on the amount of information used to bias the transition, the result will resemble that of a purely random walk or a shortest path trajectory.
+
+
+{\bf Method 3 (Shortest path ensembles).} \cite{book_graph_brain}\cite{kshortest_original} 
+
+
+Instead of only using the shortest path to some target node, one can consider all k-shortest paths, which are the ones most closely resembling the optimal path. The number $k$ of considered paths determines if the system more closely resembles that of shortest path routing or random walk paths.
 
 %%% - E3 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
