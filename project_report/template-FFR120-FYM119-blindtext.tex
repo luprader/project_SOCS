@@ -103,6 +103,7 @@ Despite these insights, major gaps remain. In particular, there is no consensus 
 
 
 % With the goal of exploring the relation of structural connections between brain regions to functional correlations in brain activity,%
+
 Connectome data can be used to simulate brain activity using a range of Brain Network Communication Models (BNCMs) \cite{review_methods}\cite{small_world_brain_networks}. On one hand, models based on routing protocol assume that the network operates with a substantial amount of information about its structure, and communications thus mainly occur through the most efficient (shortest) paths \cite{review_brain_structure_and_function}\cite{book_graph_brain}. Alternatively, diffusion models assume that information propagates through the brain without any use of structural information, taking more inefficient paths with higher metabolic cost \cite{random_walk}. 
 
 Parametric models are located between these extremes, using rules that balance the amount of topological information used for propagation and the metabolic cost of transmissions. Examples of this type of framework include linear threshold models \cite{linear_threshold}, biased random walks \cite{biased_random_walk} and shortest path ensembles \cite{kshortest_original}. A common property among them is their ability to be tuned via a parameter, measuring how far the model should lean towards diffusion-type models or routing protocol approaches.
@@ -186,24 +187,36 @@ Missing: Why are we going to use SPE instead of the other ones.
 %%% Customize this part: text between - B4 - and - E4 - must not appear in the final report 
 \begin{figure*}
     \centering
-    \includegraphics[width=\textwidth]{Fig1_placeholder.pdf}
-    \caption{{\bf Method employed (change this text according to your project).} Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself. 
+    \includegraphics[width=\textwidth]{workflow.png}
+    \caption{{\bf Workflow} This figure presents the procedure followed to measure the correlation between the empirical data and the simulated results. Since the idea behind this process is to analyze if, from the structure of the brain, its functional processing can be predicted; the following procedure is followed. From structural measurements studying the amount of white and gray matter in the brain, the structural matrix is first obtained. From this structural matrix, which measures how connected any two brain regions are, the distance matrix can be obtained making use of the shortest-path ensemble (SPE) model. The distance matrix measures how much a signal will travel if it flows from one node to another. Finally, making use of the distance matrix and the Kuramoto model, the simulated functional matrix is obtained. 
+    On the other hand, studying the neural dynamics of the brain (time series), the empirical functional matrix is obtained. This matrix measures how functionally correlated any two neurons are (how connected is the activation of one brain region to another brain region's spike). 
+    Lastly, the simulated functional matrix is compared to the empirical one, to measure how correlated these two are, obtaining one value: the Pearson correlation.
+    This procedure will be followed for each patient and for multiple possible values of $k$, trying to measure which $k$ value gives the best results for each patient.
+    Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself. 
     \textcolor{blue}{\bf A figure describing the method/model is MANDATORY.} Missing to include a figure causes a {\bf deduction} (-3  points). 
     } 
-    \label{fig:selectedmethod}
+    \label{workflow}
 \end{figure*}
 
+
+{\color{red} somwhere I would like to add a plot of the atlas locations that we used, we also have to explain in detail what the data is that we used, maybe this is also in methods?}
+
 \noindent
-To investigate how information propagates between brain regions, a parametric communication model offers a flexible approach. By tuning a model parameter and observing how the resulting simulations align with empirical data, we can detect the range of parameter values that best reproduces real behaviour; and therefore, determine which communication regime is closer to the human brain's dynamics.
+To investigate how information propagates between brain regions, a parametric communication model offers a flexible approach. By tuning a model parameter and observing how the resulting simulations align with empirical data, we can detect the range of parameter values that best reproduces real behavior; and therefore, determine which communication regime is closer to the human brain's dynamics.
 Starting from the brain's structural connectivity, we simulate information transmission following the selected model and then compare the simulated outcomes with empirical observations using multiple metrics. Trying to capture a broad variety of communication behaviours, we selected the shortest-path ensemble model as our brain network communication model. 
 
 %In order to study a wide range of behaviour with one model, the use of a parametric model was chosen as the brain network communication model. In particular, it was decided to use the shortest path ensemble approach. Several metrics will be used to characterize the behaviour of this communication method.
-{\bf Shortest path ensembles (SPE).} {This model proposes that a signal propagating from one region to another, can only do so through one of the \textit{k} shortest paths (ensemble) \cite{kshortest_original}. Following the SPE model, each route $i$ will be assigned a probability $P_i$ of the signal communicating through it according to its connection-distance length $d_i$ \cite{kprobabilities}. To assign higher probabilities to shorter routes, probabilities will be defined as follows:
+{\bf Shortest path ensembles (SPE).} {
+
+{\color{red} we use k distance metric mainly, so maybe rename to k distance, explain interpretation and motivation in detail.}
+
+This model proposes that a signal propagating from one region to another, can only do so through one of the \textit{k} shortest paths (ensemble) \cite{kshortest_original}. Following the SPE model, each route $i$ will be assigned a probability $P_i$ of the signal communicating through it according to its connection-distance length $d_i$ \cite{kprobabilities}. To assign higher probabilities to shorter routes, probabilities will be defined as follows:
 \begin{equation}
     P_i=\frac{1/d_i}{\sum_{i=1}^k (1/d_i)}
+    \label{probabilities_eq}
 \end{equation}
 
-With $d_i=-\log \left( \sum_jw_{j\to j+1}\right)$, where $w_{j\to j+1} \in (0,1)$ indicates the connection degree between the node $j$ and the next node $j+1$ followed by the signal when travelling through the path $i$ \cite{kshortest_original}.
+With $d_i=-\log \left( \sum_jw_{j\to j+1}\right)$, where $w_{j\to j+1} \in (0,1)$ indicates the connection degree between the node $j$ and the next node $j+1$; nodes that belong to the path $i$ (possibly) traveled by the signal \cite{kshortest_original}.
 
 This parametric model allows an analysis dependent on the size of the ensemble. Modifying the number of shortest paths considered, \textit{k}, the metrics presented afterwards will be studied, in order to find the range of \textit{k}-values for which the empirical results are most faithfully reproduced. 
 
@@ -214,15 +227,15 @@ In addition, SPE allows to compare the presence and impact of time delay by comp
 
 {\bf Functional Correlation (FC).} {In brain-network modelling, this procedure is commonly used to measures the correlation structure of activity time series across brain regions, generally using an FC matrix \cite{general_methods}. Where each element of the matrix is the Pearson correlation coefficient between the time series of two brain regions. With this metric, an exhaustive comparison between empirical outcomes and simulated results will be performed. Although this measure does not cover all the characteristics of a brain's network, it works as a general reference for different ROIs' correlation.
 
-{\bf Kuramoto Model (KM).} {Defining $\theta(t)$ as the phase of node $n$ at time $t$, the following equation is satisfied:}
+{\bf Kuramoto Model (KM).} {This is a mathematical framework commonly used to describe collective synchronization in populations of coupled oscillators with varied natural frequencies. Considering each brain region as an oscillator, the coupling between nodes is justified by the brain connections (grey matter), allowing the usage of the Kuramoto model for brain-signal communication \cite{kuramoto-eq}. Defining $\theta(t)$ as the phase (frequency) of node $n$ at time $t$, the following equation is satisfied:}
 
 \begin{equation}
-    \frac{d \theta}{dt} = \omega_n + c\cdot \sum_{p=1}^{N} C_{np}\cdot \sin{ \left(\theta_p (t-\tau_{np}) -\theta_n(t)\right)} + \xi\cdot\eta_n(t)
+    \frac{d \theta_n}{dt} = \omega_n + c\cdot \sum_{p=1}^{N} C_{np}\cdot \sin{ \left(\theta_p (t-\tau_{np}) -\theta_n(t)\right)} + \xi\cdot\eta_n(t)
 \end{equation}
 
 Where $n$ represents the node index: $n=1,...,N$. The term $\omega_n$ represents the intrinsic angular frequency, satisfying $\omega_n=2\pi \nu_n$, where $\nu_n$ represents a fixed Gaussian distribution $\mathcal{N}(60Hz, \sigma_f^2)$. $C_{np}$ is the relative coupling strength from node $p$ to node $n$, and $\xi$ is the global coupling scale, which scales all connection strengths. The delay between node $p$'s information emission, and node $n$'s reception is measured through $\tau_{np}$, which depends on the distance between the nodes. Defining $L_{np}$ as the distance matrix, and the average distance between nodes as $\langle L\rangle$, $k$; the delay is defined as $\tau_{np}=\langle \tau_{np}\rangle L_{np} /\langle L\rangle$; where $\langle \tau \rangle =11$ms. Lastly, $\xi$ represents the noise factor, accompanied by the term $\eta_n(t)$, indicating the noise received by local networks, corresponding to uncorrelated Gaussian white noise with zero mean, and $\sigma^2=x$. Since this study studies the effect of considering different $k$ shortest paths to define the functional correlation between brain regions, the coupling matrix $C$ and the distance matrix $L$ will be dependent on $k$. Reasonably, $C_{np}=1/L_{np}$ $\forall n,p$, since the further apart two nodes are from each other, the less coupled they will be \cite{kuramoto-eq}. 
 
-
+{\color{red} Maybe I will add "BOLD" conversion, this is converting the kuramoto output to the signal that is actually measured by the fMRI using Baloon-Windkessel method, I have some code for that but not sure if it will work}
 
 
 % We could say the good and bad parts after describing the methods.
@@ -255,14 +268,29 @@ Remember to organize your results properly.
 Reference your figures in the discussion. Example: Fig.~\ref{fig:res1}. 
 }}
 
-\textcolor{cyan}{\lipsum[1-2]}\\
+{\color{red} first result image will be a panel showing the averaged k distance matrix for a selection of k (1, 25, 50), we can discuss that it shows how the brain has smallworld structure (few lines with short distances to all other nodes). I could also make additional histograms below, showing the distribution of the distance values for the selected k
 
-\begin{figure}
+second result will be the correlation graph of k-distances vs FC, here we talk about the structure of the graph, we can also add the histogram as a panel as discussed with yu-wei, there we will motivate that we mainly look at the structure up to 10 in detail
+
+the next one will be how i decided on the parameters that differ from the paper, ill probably have some graph that shows the 1 dimensional sweep or sth
+
+then we can show again for k= 1 25 50 the resulting FC matrices (averaged) from kuramoto with the empirical averages below to compare visually, we can talk about structures that are captured etc.
+
+lastly there will be the plot of the FCvs empirical along k, hopefully matching the other graph in its structure, I will probably now simulater all k, but 1-10 + 20, 30, 40, 50 with errorbars, since that will take long enough already
+}
+
+The current simulations using the parameters proposed in \cite{kuramoto-eq} do not produce FC matrices that have significant pearson correlation to the empirical FC matrices \ref{fig:res2}. The highest correlation value achieved right now is 0.018, which is about  a factor 10 smaller than what would be acceptable going off of the base correlation that the k-distance matrices have right now \ref{fig:res1}.
+
+It can be seen that the obtained correlations between simulated FC and empirical FC are also not following any structure in parameter space right now. Results are essentially random noise right now.
+
+\begin{figure*}
     \centering
-    \includegraphics[width=\columnwidth]{Fig3.pdf}
-    \caption{{\bf Title Figure.} Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself.} 
-    \label{fig:res1}
-\end{figure}
+    \includegraphics[width=\textwidth]{4plots.png}
+    \caption{{\bf Parameter sweep.} Seeking to study which correlation value is obtained for each set of parameters $(c, \xi, k)$, where $c$ represents the coupling parameter, $\xi$ indicates the noise, and $k$ is the number of shortest paths considered; a parameter sweep was performed (left panel). Trying to analyze if the correlation between empirical and simulated results has a clear dependency on the coupling parameter $c$, the noise factor $\xi$, or in $k$, a projection over these axes was performed (center left, center right, and right panels, respectively). The behavior exhibited by the projections, with close averages and high variances, demonstrates that the correlation cannot be easily simplified to the value of one of these parameters, but rather depends highly on the set $(c,n,k)$.
+    The font size should be bigger, the tick params should be bigger, and we should change the legend. 
+    Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself.} 
+    \label{fig:res2}
+\end{figure*}
 
 \textcolor{cyan}{\lipsum[8-9]} 
 
@@ -270,10 +298,25 @@ At some point in the discussion, Reference Fig.~\ref{fig:res2}. \\
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\columnwidth]{Fig2.pdf}
+    \includegraphics[width=\columnwidth]{3dplot.png}
     \caption{{\bf Title Figure.} Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself.} 
     \label{fig:res2}
 \end{figure}
+
+
+
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{curve.png}
+    \caption{{\bf Simulated Distance matrix vs Empirical Functional matrix.} Given the possibility of losing accuracy when performing the Kuramoto simulation to obtain the numerical FC matrix, a different perspective to that presented in Fig. \ref{workflow} was analyzed. It was now decided to observe how correlated are the distance matrices (calculated using the SPE model) and the empirical FC matrices. For each value of $k$ and for each patient, the correlation between the distance matrix and the empirical FC is studied, with the emergent results presented in this figure. The negative correlation obtained is due to the fact that, in general, the higher the distance between any two nodes, the lower the functional correlation.
+    %the distance matrix averaged over all patients is compared to the averaged functional correlation matrix.  Pearson correlation value between the averaged (over patients) fc matrix and for every k, the k distance matrix (over patients). Averaged k matrix and averaged fc gives a Pearson correlation value; those are the values.
+    Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself.} 
+    \label{fig:res1}
+\end{figure}
+
 
 \textcolor{cyan}{\lipsum[10-11]} 
 %%% - E5 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -288,13 +331,20 @@ At some point in the discussion, Reference Fig.~\ref{fig:res2}. \\
 \noindent
 \fbox{\parbox[t][][t]{\columnwidth}{
 \textbf{Points:} \fbox{\bf \textcolor{magenta}{4}} out of \textbf{44}
-
-Here conclusions and outlook. 
 }}
 
-\textcolor{cyan}{\lipsum[1]}
 
-\textcolor{cyan}{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.  }
+{\color{red} k distance always is the weighted value of all paths up to k, but maybe one should also just look at other combinations of paths, maybe k3 is not used but 4 and 6 etc. this is a limitation of what we did
+
+kuramoto is a simplification, and we will not have simulated for the same timescales as the empirical measurements, this may be a problem with comparability, though I did ensure that the oscillators had stabilized within the time frame that i simulated
+
+also in actuality we should convert the data that we get to BOLD signal, I have some code from a guy that supposedly does this, maybe i can still add that.}
+
+The optimal parameters curently obtained for the model vary strongly depending on the k-distance matrix used, but they are mostly in the same order of magnitude as the ones proposed in \cite{kuramoto-eq}.
+
+Further investigation will be conducted to see if the model can be improved to obtain statistically significant results.
+
+The base correlation of the k-distance matrices against empirical FC is interesting due to the suggested additional importance of paths with length $\approx$ 5 in addition to shortest path signalling, which has the highest correlation.
 %%% - E6 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -306,7 +356,7 @@ Here conclusions and outlook.
 %%% - B7 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B7 - and - E7 - must not appear in the final report 
 \noindent
-Lukas Prader red the articles regarding the information propagation and implemented all the code needed for this project. Daniel P. Fonseca red  the articles regarding previous research in the field and wrote this article. Both authors, nevertheless, made valuable contributions for the complementary work.
+Lukas Prader read the articles regarding the information propagation and implemented all the code needed for this project. Daniel P. Fonseca red  the articles regarding previous research in the field and wrote this article. Both authors, nevertheless, made valuable contributions for the complementary work. \textit{Note:} Due to a mistake when creating the GitHub repository, all of Daniel's contributions have been assigned to Lukas' profile.
 %%% - E7 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -327,15 +377,7 @@ The authors declare that the research was conducted in the absence of any commer
 %%% - B9 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B9 - and - E9 - must not appear in the final report 
 \noindent
-\fbox{\parbox[b][][t]{\columnwidth}{
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{1}} out of \textbf{44}
-
-Add some text. See a possible text below.
-}}
-
-Data is available for download at ....  / can be accessed from ....
-
-All source code and examples are made publicly available at ... . The version used in this study is archived in ... with DOI ... 
+Data is available for download at \cite{braph2}. All source files (code and report) are made publicly available at \cite{code} .
 %%% - E9 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -343,10 +385,7 @@ All source code and examples are made publicly available at ... . The version us
 %%% - B10 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B10 - and - E10 - must not appear in the final report 
 \noindent
-\fbox{\parbox[b][][t]{\columnwidth}{
-Score for correct amount of relevant, peer reviewed {\bf References}: 
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{5}} out of \textbf{44}
-}}
+
 
 
 \bibliography{biblio-FFR120-FYM119} %%% DO NOT CHANGE!
