@@ -268,12 +268,72 @@ Remember to organize your results properly.
 Reference your figures in the discussion. Example: Fig.~\ref{fig:res1}. 
 }}
 
+{\color{red} Not sure if the SC FC plot should rather go into methods with the atlas plot.}
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{../project_SOCS_code/figures/averaged_sc_fc.png}
+    \caption{\textbf{Averaged SC and FC matrix.} Matrices showing the averaged structural connectivity (A) and functional connectivity (B) over all patients. Color describes the connection strength or functional correlation between two ROIs respectively.}
+    \label{fig:avg_sc_fc}
+\end{figure*}
+
+Using Equation (), matrices containing the k-shortest distance between every ROI were calculated for each patient, with $k$ ranging from 1 to 50. Figure \ref{fig:kdist_panel} shows three example k-distance matrices, obtained by averaging over all patients. It can be seen that for increasing values of $k$, the matrices become more uniform in color. This suggests that once many paths are considered, ROIs become more similar in terms of their k-distance, as signals can propagate through many alternative routes, creating a diffusive regime. For lower values of $k$, the matrices show more structure, indicating that certain ROIs form well connected clusters, i.e. the regions around the index 150 and 200 (Fig. \ref{fig:kdist_panel}, top).
+
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{project_report/plots/k_distance_panel.png}
+    \includegraphics[width=0.9\linewidth]{../project_SOCS_code/figures/averaged_k_dist_matrices.png}
     \caption{\textbf{Example k-distance matrices.} Three k-distance matrices showing k=1, 5 and 25, obtained by averaging over all patients. Color describes the k-distance between two ROIs.}
     \label{fig:kdist_panel}
+\end{figure}
 
+
+Using only
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{../project_SOCS_code/figures/k_dist_correlation_vs_k.png}
+    \caption{\textbf{Correlation of k-distance matrices and empirical FC.} Pearson correlation between k-distance matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error band.}
+    \label{fig:kdist_vs_fc}
+\end{figure*}
+
+\textcolor{cyan}{\lipsum[8-9]}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{../project_SOCS_code/figures/parameter_optimisation.png}
+    \caption{\textbf{Parameter optimisation.} Optimisation results of the scaling parameter for the Kuramoto global coupling factor. Colored points show results for different values of k, each point is the mean of 3 repetitions. Black crosses show the average correlation of the tested k values.}
+    \label{fig:parameter_opt}
+\end{figure}
+
+\textcolor{cyan}{\lipsum[8-9]}
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{../project_SOCS_code/figures/simulation_correlation_vs_k.png}
+    \caption{\textbf{Correlation of simulated FC and empirical FC.} Pearson correlation between simulated functional connectivity matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error bars.}
+    \label{fig:kdist_vs_fc}
+\end{figure*}
+
+
+\textcolor{cyan}{\lipsum[8-9]}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{../project_SOCS_code/figures/averaged_simulated_fc_matrices.png}
+    \caption{\textbf{Example k-distance matrices.} Three simulated FC matrices showing k=1, 5 and 25, obtained by averaging over all patients. Color describes the k-distance between two ROIs.}
+    \label{fig:sim_fc_panel}
+\end{figure}
+
+\textcolor{cyan}{\lipsum[8-9]}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{../project_SOCS_code/figures/best_k_histograms.png}
+    \caption{\textbf{Distribution of best k per patient.} Histograms showing the distribution of best k values per patient, for the correlation between k-distance matrices and empirical FC (A) and for the correlation between simulated FC and empirical FC (B).}
+    \label{fig:best_k_hist}
 \end{figure}
 
 {\color{red} first result image will be a panel showing the averaged k distance matrix for a selection of k (1, 25, 50), we can discuss that it shows how the brain has smallworld structure (few lines with short distances to all other nodes). I could also make additional histograms below, showing the distribution of the distance values for the selected k
@@ -291,42 +351,6 @@ The current simulations using the parameters proposed in \cite{kuramoto-eq} do n
 
 It can be seen that the obtained correlations between simulated FC and empirical FC are also not following any structure in parameter space right now. Results are essentially random noise right now.
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=\textwidth]{4plots.png}
-    \caption{{\bf Parameter sweep.} Seeking to study which correlation value is obtained for each set of parameters $(c, \xi, k)$, where $c$ represents the coupling parameter, $\xi$ indicates the noise, and $k$ is the number of shortest paths considered; a parameter sweep was performed (left panel). Trying to analyze if the correlation between empirical and simulated results has a clear dependency on the coupling parameter $c$, the noise factor $\xi$, or in $k$, a projection over these axes was performed (center left, center right, and right panels, respectively). The behavior exhibited by the projections, with close averages and high variances, demonstrates that the correlation cannot be easily simplified to the value of one of these parameters, but rather depends highly on the set $(c,n,k)$.
-    The font size should be bigger, the tick params should be bigger, and we should change the legend. 
-    Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself.} 
-    \label{fig:res2}
-\end{figure*}
-
-\textcolor{cyan}{\lipsum[8-9]} 
-
-At some point in the discussion, Reference Fig.~\ref{fig:res2}. \\
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\columnwidth]{3dplot.png}
-    \caption{{\bf Title Figure.} Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself.} 
-    \label{fig:res2}
-\end{figure}
-
-
-
-
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\columnwidth]{curve.png}
-    \caption{{\bf Simulated Distance matrix vs Empirical Functional matrix.} Given the possibility of losing accuracy when performing the Kuramoto simulation to obtain the numerical FC matrix, a different perspective to that presented in Fig. \ref{workflow} was analyzed. It was now decided to observe how correlated are the distance matrices (calculated using the SPE model) and the empirical FC matrices. For each value of $k$ and for each patient, the correlation between the distance matrix and the empirical FC is studied, with the emergent results presented in this figure. The negative correlation obtained is due to the fact that, in general, the higher the distance between any two nodes, the lower the functional correlation.
-    %the distance matrix averaged over all patients is compared to the averaged functional correlation matrix.  Pearson correlation value between the averaged (over patients) fc matrix and for every k, the k distance matrix (over patients). Averaged k matrix and averaged fc gives a Pearson correlation value; those are the values.
-    Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself.} 
-    \label{fig:res1}
-\end{figure}
-
-
-\textcolor{cyan}{\lipsum[10-11]} 
 %%% - E5 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
