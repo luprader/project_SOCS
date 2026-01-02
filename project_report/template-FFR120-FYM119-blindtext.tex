@@ -9,10 +9,10 @@
 ]{revtex4-2}
 
 \usepackage{graphicx}% Include figure files
-\usepackage{dcolumn}% Align table columns on decimal point
+% \usepackage{dcolumn}% Align table columns on decimal point
 \usepackage{bm}% bold math
 \usepackage{hyperref}% add hypertext capabilities
-\usepackage{array} % for better column types
+% \usepackage{array} % for better column types
 \usepackage{caption} % optional for better captions
 \usepackage{tabularx}
 %\usepackage[mathlines]{lineno}% Enable numbering of text and display math
@@ -55,20 +55,6 @@ Understanding how anatomical pathways manage the flow of information in the huma
 
 %%% - B2 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B2 - and - E2 - must not appear in the final report 
-\noindent
-\fbox{\parbox[t][][t]{\columnwidth}{
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{5}} out of \textbf{44}
-
-In this section you have to: 
-Provide the reader of the general context of the research question that you chose to investigate, providing the relevant peer-reviewed references.  For example, a citation looks like \cite{surname1999peer} or \cite{cognome2001what, smullyan2025what}.
-
-Remember: No subsectioning in the introduction.
-
-For references, use the command $\backslash${\tt cite}$\{\cdots\}$. \\
-Example: $\backslash${\tt cite}$\{${\tt polya1945how}$\}$ gives \cite{polya1945how}. 
-Use the bib file {\tt biblio-FFR120-FYM119.bib} (provided with this template) for the bib items.
-}}
-
 
 Understanding how information propagates between brain regions is a central challenge in neuroscience. Structural connectivity, as mapped through Diffusion MRI, encodes the pathways that information can flow through when propagating from node to node. Multiple studies have shown that the strength and structure of white-matter routes are tightly linked to functional coupling along the cortex \cite{white_matter}. Network neuroscience offers a quantitative framework for studying these connections, using graph approaches to characterize how the brain's topology supports efficient, flexible and metabolically economical communication \cite{book_graph_brain}.
 
@@ -116,40 +102,59 @@ Parametric models are located between these extremes, using rules that balance t
 
 % They all have in common that they can be tuned using a parameter
 
-\begin{table*}[t]
+\begin{table*}%[t]
 \caption{\textbf{Overview of simulation methods and metrics.}}
 \label{tab:methodsoverview}
 
 % I dont like what I have written in the table, it is hard to write stuff for these kinds of "scenarions" etc
-
-\begin{tabular*}{\textwidth}{|c|c|c|c|}
-    \hline
+% p template 2 3 6 6 cm
+\begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{6cm}|}
+\hline
     \textbf{Method / Model} & \textbf{Use case scenario} & \textbf{Features} & \textbf{Suitable for the project?} \\
     \hline
-    \parbox[t]{0.125\linewidth}{Linear threshold model} &
-    \parbox[t]{0.305\linewidth}{looking at signal propagation based on the state of neighbouring nodes} &
-    \parbox[t]{0.19\linewidth}{neighbour transmission threshold} &
-    \parbox[t]{0.318\linewidth}{uses activation state to determine propagation, focused on direct structural influence} \\
+    Linear threshold model &
+    looking at signal propagation based on the state of neighbouring nodes &
+    neighbour transmission threshold &
+    uses activation state to determine propagation, focused on direct structural influence \\
     \hline
-    \parbox[t]{0.125\linewidth}{Biased random walk} & 
-    \parbox[t]{0.305\linewidth}{investigating the potential impact of structural information on random walk dynamics} &
-    \parbox[t]{0.19\linewidth}{transition bias, amount of structural information allowed to influence random transitions} &
-    \parbox[t]{0.318\linewidth}{can be used to study the concrete relationship between structural properties and patterns in time correlation} \\
+    Biased random walk & 
+    investigating the potential impact of structural information on random walk dynamics &
+    transition bias, amount of structural information allowed to influence random transitions &
+    can be used to study the concrete relationship between structural properties and patterns in time correlation \\
     \hline
-    \parbox[t]{0.125\linewidth}{Shortest path ensembles} & 
-    \parbox[t]{0.305\linewidth}{analysing behaviour related to perturbations of the optimal path and the relevance of the optimal path in relation to other alternatives} &
-    \parbox[t]{0.19\linewidth}{number of next shortest paths $k$} &
-    \parbox[t]{0.318\linewidth}{can be used to closely explore differences in efficiency between paths related to, but deviating from optimal (ideal) path routing} \\
+    Shortest path ensembles & 
+    analysing behaviour related to perturbations of the optimal path and the relevance of the optimal path in relation to other alternatives &
+    number of next shortest paths $k$ &
+    can be used to closely explore differences in efficiency between paths related to, but deviating from optimal (ideal) path routing \\
     \hline
-\end{tabular*}
+\end{tabular}
+
+% \begin{tabular*}{\textwidth}{|c|c|c|c|}
+%     \hline
+%     \textbf{Method / Model} & \textbf{Use case scenario} & \textbf{Features} & \textbf{Suitable for the project?} \\
+%     \hline
+%     \parbox[t]{0.125\linewidth}{Linear threshold model} &
+%     \parbox[t]{0.305\linewidth}{looking at signal propagation based on the state of neighbouring nodes} &
+%     \parbox[t]{0.19\linewidth}{neighbour transmission threshold} &
+%     \parbox[t]{0.318\linewidth}{uses activation state to determine propagation, focused on direct structural influence} \\
+%     \hline
+%     \parbox[t]{0.125\linewidth}{Biased random walk} & 
+%     \parbox[t]{0.305\linewidth}{investigating the potential impact of structural information on random walk dynamics} &
+%     \parbox[t]{0.19\linewidth}{transition bias, amount of structural information allowed to influence random transitions} &
+%     \parbox[t]{0.318\linewidth}{can be used to study the concrete relationship between structural properties and patterns in time correlation} \\
+%     \hline
+%     \parbox[t]{0.125\linewidth}{Shortest path ensembles} & 
+%     \parbox[t]{0.305\linewidth}{analysing behaviour related to perturbations of the optimal path and the relevance of the optimal path in relation to other alternatives} &
+%     \parbox[t]{0.19\linewidth}{number of next shortest paths $k$} &
+%     \parbox[t]{0.318\linewidth}{can be used to closely explore differences in efficiency between paths related to, but deviating from optimal (ideal) path routing} \\
+%     \hline
+% \end{tabular}
 
 \end{table*}
 
 
 {\bf Method 1 (Linear threshold models).} 
 In this approach, signal propagation is determined by the number of neighbouring nodes that have already received the signal \cite{linear_threshold} . Each node in the network will receive the information only if $n$ (or more) of its neighbours had previously received the transmission, making $n$ the tunable parameter of the model. With $n=1$, each node with at least one activated neighbour will receive the signal, resulting in maximal diffusion through broadcasting. Increasing $n$, the conditions for activation become progressively stricter, reducing the propagation along the network. For $n$ sufficiently large, information flow can reach a bottleneck, reflecting a regime in which only tightly clustered neighbourhoods can sustain transmission.
-
-
 
 
 %{ \it In this approach, signals are transmitted based on the number of neighbours $n$ that have received a signal already. The number necessary for a signal to be transmitted is the parameter that can be varied in this model. If $n=0$ the system resembles free broadcasting diffusion through the system, every node propagates the signal to its neighbours. With higher values the range of reachable nodes decreases until it becomes very localised for large values of $n$.}
@@ -161,7 +166,7 @@ In unbiased random walks, the probability of a signal propagating from node $i$ 
 %In this framework, the transmissions are modelled as random walks with transition probabilities between nodes being biased depending on the topological properties, i.e. their distance to the shortest path considering a specific target node. Depending on the amount of information used to bias the transition, the result will resemble that of a purely random walk or a shortest path trajectory.
 
 
-{\bf Method 3 (Shortest path ensembles).} \cite{book_graph_brain}\cite{kshortest_original} 
+{\bf Method 3 (Shortest path ensembles).} \cite{book_graph_brain} \cite{kshortest_original} 
 This final parametric model considers that signals between two brain regions do not only travel along the most efficient route, but through the $k$ most efficient paths. Standard shortest-path routing is recovered setting $k=1$. Unlike other models, the shortest path ensembles still preserves selectivity, focusing on the most efficient routes. Small values of $k$, would require extensive global topological knowledge of the network, while larger values of $k$ would relax these conditions, resulting in fewer information cost. Therefore, the parameter $k$ balances the balances the communication delay with informational demands. 
 
 Missing: Why are we going to use SPE instead of the other ones.
@@ -188,13 +193,9 @@ Missing: Why are we going to use SPE instead of the other ones.
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{workflow.png}
-    \caption{{\bf Workflow} This figure presents the procedure followed to measure the correlation between the empirical data and the simulated results. Since the idea behind this process is to analyze if, from the structure of the brain, its functional processing can be predicted; the following procedure is followed. From structural measurements studying the amount of white and gray matter in the brain, the structural matrix is first obtained. From this structural matrix, which measures how connected any two brain regions are, the distance matrix can be obtained making use of the shortest-path ensemble (SPE) model. The distance matrix measures how much a signal will travel if it flows from one node to another. Finally, making use of the distance matrix and the Kuramoto model, the simulated functional matrix is obtained. 
-    On the other hand, studying the neural dynamics of the brain (time series), the empirical functional matrix is obtained. This matrix measures how functionally correlated any two neurons are (how connected is the activation of one brain region to another brain region's spike). 
-    Lastly, the simulated functional matrix is compared to the empirical one, to measure how correlated these two are, obtaining one value: the Pearson correlation.
-    This procedure will be followed for each patient and for multiple possible values of $k$, trying to measure which $k$ value gives the best results for each patient.
-    Write some explanatory text for the figure. Make sure that the figure is referenced in the text. The caption should be such that, together with the figure, allows the reader to understand the concepts in the figure itself. 
-    \textcolor{blue}{\bf A figure describing the method/model is MANDATORY.} Missing to include a figure causes a {\bf deduction} (-3  points). 
-    } 
+    \caption{{\bf Method overview.} The illustrated workflow summarizes the steps taken to simulate and evaluate the shortest-path ensemble model against empirical brain data for all patients. Structural connectivity matrices from DTI and fMRI time series from the provided dataset are used as inputs.
+    SC matrices are used to derive the k-distance matrices for $k$ ranging from 1 to 50. The obtained distance matrices are then used as coupling matrices in the Kuramoto model to simulate brain activity over time, resulting in simulated functional connectivity (FC) matrices. Empirical FC matrices are computed from the fMRI time series using Pearson correlation. Finally, the simulated FC matrices are compared to the empirical FC matrices using Pearson correlation to assess model performance across different values of $k$.
+    }
     \label{workflow}
 \end{figure*}
 
@@ -225,7 +226,7 @@ In addition, SPE allows to compare the presence and impact of time delay by comp
 
 [Discuss the use case scenarios of the method, their features with advantages and disadvantages / strong and weak points, and whether it is more or less suitable for the research question. It is a good idea to reference the literature.]} 
 
-{\bf Functional Correlation (FC).} {In brain-network modelling, this procedure is commonly used to measures the correlation structure of activity time series across brain regions, generally using an FC matrix \cite{general_methods}. Where each element of the matrix is the Pearson correlation coefficient between the time series of two brain regions. With this metric, an exhaustive comparison between empirical outcomes and simulated results will be performed. Although this measure does not cover all the characteristics of a brain's network, it works as a general reference for different ROIs' correlation.
+{\bf Functional Correlation (FC).} {In brain-network modelling, this procedure is commonly used to measures the correlation structure of activity time series across brain regions, generally using an FC matrix \cite{general_methods}. Where each element of the matrix is the Pearson correlation coefficient between the time series of two brain regions. With this metric, an exhaustive comparison between empirical outcomes and simulated results will be performed. Although this measure does not cover all the characteristics of a brain's network, it works as a general reference for different ROIs' correlation.}
 
 {\bf Kuramoto Model (KM).} {This is a mathematical framework commonly used to describe collective synchronization in populations of coupled oscillators with varied natural frequencies. Considering each brain region as an oscillator, the coupling between nodes is justified by the brain connections (grey matter), allowing the usage of the Kuramoto model for brain-signal communication \cite{kuramoto-eq}. Defining $\theta(t)$ as the phase (frequency) of node $n$ at time $t$, the following equation is satisfied:}
 
@@ -244,6 +245,29 @@ Where $n$ represents the node index: $n=1,...,N$. The term $\omega_n$ represents
 
 [Discuss the use case scenarios of the method, their features with advantages and disadvantages / strong and weak points, and whether it is more or less suitable for the research question. It is a good idea to reference the literature]
 
+{\bf Dataset.} {The provided dataset contains structural connectivity (SC) matrices obtained with measurements from Diffusion Tensor Imaging (DTI) and z-score time series from functional Magnetic Resonance Imaging (fMRI) data, from 100 healthy participants \cite{braph2}. The measurements concern 246 brain regions of interest (ROIs) defined by the Brainnetome atlas \cite{fan2016brainnetome}. % (see Fig. \ref{fig:brain_atlas_views} for a visualization of the atlas centroids).
+The time series were used to compute empirical functional connectivity matrices via Pearson correlation. These empirical FC matrices serve as ground truth for evaluating the performance of the shortest-path ensemble model in simulating brain activity.
+Figure \ref{fig:avg_sc_fc} shows the average of all SC and FC matrices in the dataset, illustrating the nature of the dataset.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/averaged_sc_fc.png}
+    \caption{\textbf{Averaged SC and FC matrix.} Matrices showing the averaged structural connectivity (A) and functional connectivity (B) over all patients. Color describes the connection strength or functional correlation between two ROIs respectively.}
+    \label{fig:avg_sc_fc}
+\end{figure}
+
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/brain_atlas_views.png}
+%     \caption{\textbf{Brain atlas views.} Visualization of the Brainnetome atlas showing the 246 brain regions of interest (ROIs).}
+%     \label{fig:brain_atlas_views}
+% \end{figure}
+
+}
+
+
 %{\bf Recurrent Quantification Analysis (RQA).} {With fMRIs in the form of time series, one can perform analyses on the recurrence of temporal patterns between ROIs. Recurrence plots and information theoretic measures can be used to compare different time series with each other \cite{webber2015recurrence} and will be used to compare simulated results with empirical data. These tools usually require domain specific knowledge in order to find good parameter values for the analysis.}
 
 %{\bf Shannon Entropy Growth Curve.} {The Shannon entropy growth curve for a time series of states of a dynamical systems can be used to understand the temporal order of complexity of a system, showing the exact orders of time relevant to the behaviour of the system \cite{crutchfield2003regularities}. It calculates the block entropies for a time series and looks at changes in the growth behaviour. It has been used in applications related to Reinforcement Learning and general state estimation in Markov Processes. The possible estimation length of the growth curve depends highly on the system and the number of samples, since a naive maximum likelihood estimation is biased to underestimate the entropy.}
@@ -257,60 +281,40 @@ Where $n$ represents the node index: $n=1,...,N$. The term $\omega_n$ represents
 
 %%% - B5 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B5 - and - E5 - must not appear in the final report 
-\noindent
-\fbox{\parbox[t][][t]{\columnwidth}{
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{8}} out of \textbf{44}
-
-Here report and discuss the results of the project. 
-
-Remember to organize your results properly.  
-
-Reference your figures in the discussion. Example: Fig.~\ref{fig:res1}. 
-}}
-
-{\color{red} Not sure if the SC FC plot should rather go into methods with the atlas plot.}
-\begin{figure*}
-    \centering
-    \includegraphics[width=\textwidth]{../project_SOCS_code/figures/averaged_sc_fc.png}
-    \caption{\textbf{Averaged SC and FC matrix.} Matrices showing the averaged structural connectivity (A) and functional connectivity (B) over all patients. Color describes the connection strength or functional correlation between two ROIs respectively.}
-    \label{fig:avg_sc_fc}
-\end{figure*}
 
 Using Equation (), matrices containing the k-shortest distance between every ROI were calculated for each patient, with $k$ ranging from 1 to 50. Figure \ref{fig:kdist_panel} shows three example k-distance matrices, obtained by averaging over all patients. It can be seen that for increasing values of $k$, the matrices become more uniform in color. This suggests that once many paths are considered, ROIs become more similar in terms of their k-distance, as signals can propagate through many alternative routes, creating a diffusive regime. For lower values of $k$, the matrices show more structure, indicating that certain ROIs form well connected clusters, i.e. the regions around the index 150 and 200 (Fig. \ref{fig:kdist_panel}, top).
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{../project_SOCS_code/figures/averaged_k_dist_matrices.png}
+    \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/averaged_k_dist_matrices.png}
     \caption{\textbf{Example k-distance matrices.} Three k-distance matrices showing k=1, 5 and 25, obtained by averaging over all patients. Color describes the k-distance between two ROIs.}
     \label{fig:kdist_panel}
 \end{figure}
 
 
-Using only
+The global coupling strength $c=18$ used in \cite{kuramoto-eq} has to be adapted to connectivity matrices with more connections \cite{general_methods}. The optimization of the scaling factor with \texttt{scipy.optimize.scalar\_minimize} is shown in Figure \ref{fig:parameter_opt}, with the maximal correlation between simulated and empirical FC being at $f \approx 0.2098$. 
 
-\begin{figure*}
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{../project_SOCS_code/figures/k_dist_correlation_vs_k.png}
-    \caption{\textbf{Correlation of k-distance matrices and empirical FC.} Pearson correlation between k-distance matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error band.}
-    \label{fig:kdist_vs_fc}
-\end{figure*}
-
-\textcolor{cyan}{\lipsum[8-9]}
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{../project_SOCS_code/figures/parameter_optimisation.png}
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/parameter_optimisation.png}
     \caption{\textbf{Parameter optimisation.} Optimisation results of the scaling parameter for the Kuramoto global coupling factor. Colored points show results for different values of k, each point is the mean of 3 repetitions. Black crosses show the average correlation of the tested k values.}
     \label{fig:parameter_opt}
 \end{figure}
 
-\textcolor{cyan}{\lipsum[8-9]}
+In order to show how the structure of the k-distance matrices relates to empirical functional connectivity, the Pearson correlation between both matrices was calculated for each patient. The results were then plotted as the mean correlation and standard deviation as a function of $k$ (Fig. \ref{fig:kdist_vs_fc}). The first thing to notice is the negative sign of the correlation values. Since we correlate distance with functional correlation, this suggests that ROIs with higher k-distance between them exhibit lower functional correlation. One can also observe clear k-dependence, with the strongest correlation at $k=1$, which is equivalent to single shortest path connections between ROIs. For $k>1$ correlation is significantly lower, but has a stable plateau with $r \approx -0.125$ up to $k=10$, after which correlation decreases further, reaching $r \approx -0.1$ at $k=50$. This suggests that additional paths, if close to the shortest path, relate diffferently to functional connectivity than more distant paths.
+The scale of the standard deviation indicates that there is considerable variability between patients, yet ANOVA confirms significant differences between the distributions of each $k$ with $p \ll 0.001$.
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../project_SOCS_code/figures/k_dist_correlation_vs_k.png}
+    \caption{\textbf{Correlation of k-distance matrices and empirical FC.} Pearson correlation between k-distance matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error band.}
+    \label{fig:kdist_vs_fc}
+\end{figure*}
 
 
 \begin{figure*}
     \centering
-    \includegraphics[width=\textwidth]{../project_SOCS_code/figures/simulation_correlation_vs_k.png}
+    \includegraphics[width=0.9\textwidth]{../project_SOCS_code/figures/simulation_correlation_vs_k.png}
     \caption{\textbf{Correlation of simulated FC and empirical FC.} Pearson correlation between simulated functional connectivity matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error bars.}
     \label{fig:kdist_vs_fc}
 \end{figure*}
@@ -321,7 +325,7 @@ Using only
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{../project_SOCS_code/figures/averaged_simulated_fc_matrices.png}
+    \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/averaged_simulated_fc_matrices.png}
     \caption{\textbf{Example k-distance matrices.} Three simulated FC matrices showing k=1, 5 and 25, obtained by averaging over all patients. Color describes the k-distance between two ROIs.}
     \label{fig:sim_fc_panel}
 \end{figure}
@@ -331,25 +335,12 @@ Using only
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{../project_SOCS_code/figures/best_k_histograms.png}
+    \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/best_k_histograms.png}
     \caption{\textbf{Distribution of best k per patient.} Histograms showing the distribution of best k values per patient, for the correlation between k-distance matrices and empirical FC (A) and for the correlation between simulated FC and empirical FC (B).}
     \label{fig:best_k_hist}
 \end{figure}
 
-{\color{red} first result image will be a panel showing the averaged k distance matrix for a selection of k (1, 25, 50), we can discuss that it shows how the brain has smallworld structure (few lines with short distances to all other nodes). I could also make additional histograms below, showing the distribution of the distance values for the selected k
 
-second result will be the correlation graph of k-distances vs FC, here we talk about the structure of the graph, we can also add the histogram as a panel as discussed with yu-wei, there we will motivate that we mainly look at the structure up to 10 in detail
-
-the next one will be how i decided on the parameters that differ from the paper, ill probably have some graph that shows the 1 dimensional sweep or sth
-
-then we can show again for k= 1 25 50 the resulting FC matrices (averaged) from kuramoto with the empirical averages below to compare visually, we can talk about structures that are captured etc.
-
-lastly there will be the plot of the FCvs empirical along k, hopefully matching the other graph in its structure, I will probably now simulater all k, but 1-10 + 20, 30, 40, 50 with errorbars, since that will take long enough already
-}
-
-The current simulations using the parameters proposed in \cite{kuramoto-eq} do not produce FC matrices that have significant pearson correlation to the empirical FC matrices \ref{fig:res2}. The highest correlation value achieved right now is 0.018, which is about  a factor 10 smaller than what would be acceptable going off of the base correlation that the k-distance matrices have right now \ref{fig:res1}.
-
-It can be seen that the obtained correlations between simulated FC and empirical FC are also not following any structure in parameter space right now. Results are essentially random noise right now.
 
 %%% - E5 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
