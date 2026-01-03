@@ -282,7 +282,7 @@ Figure \ref{fig:avg_sc_fc} shows the average of all SC and FC matrices in the da
 %%% - B5 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B5 - and - E5 - must not appear in the final report 
 
-Using Equation (), matrices containing the k-shortest distance between every ROI were calculated for each patient, with $k$ ranging from 1 to 50. Figure \ref{fig:kdist_panel} shows three example k-distance matrices, obtained by averaging over all patients. It can be seen that for increasing values of $k$, the matrices become more uniform in color. This suggests that once many paths are considered, ROIs become more similar in terms of their k-distance, as signals can propagate through many alternative routes, creating a diffusive regime. For lower values of $k$, the matrices show more structure, indicating that certain ROIs form well connected clusters, i.e. the regions around the index 150 and 200 (Fig. \ref{fig:kdist_panel}, top).
+Using Equation (), matrices containing the k-shortest distance between every ROI were calculated for each patient, with $k$ ranging from 1 to 50. Figure \ref{fig:kdist_panel} shows three example k-distance matrices ($k=1,5,25$), obtained by averaging over all patients. It can be seen that for increasing values of $k$, the matrices become more uniform in color. This suggests that once many paths are considered, ROIs become more similar in terms of their k-distance, as signals can propagate through many alternative routes, creating a diffusive regime. For lower values of $k$, the matrices show more structure, indicating that certain ROIs form well connected clusters, i.e. the regions around the index 150 and 200 (Fig. \ref{fig:kdist_panel}, top).
 
 \begin{figure}
     \centering
@@ -292,7 +292,25 @@ Using Equation (), matrices containing the k-shortest distance between every ROI
 \end{figure}
 
 
-The global coupling strength $c=18$ used in \cite{kuramoto-eq} has to be adapted to connectivity matrices with more connections \cite{general_methods}. The optimization of the scaling factor with \texttt{scipy.optimize.scalar\_minimize} is shown in Figure \ref{fig:parameter_opt}, with the maximal correlation between simulated and empirical FC being at $f \approx 0.2098$. 
+In order to show how the structure of the k-distance matrices relates to empirical functional connectivity, the Pearson correlation between both matrices was calculated for each patient.
+The results were then plotted as the mean correlation and standard deviation as a function of $k$ (Fig. \ref{fig:kdist_vs_fc}).
+The first thing to notice is the negative sign of the correlation values.
+Since we correlate distance with functional correlation, this suggests that ROIs with higher k-distance between them exhibit lower functional correlation.
+One can also observe clear k-dependence, with the strongest mean correlation at $k=1$ with $r \approx -0.129$, which is equivalent to single shortest path connections between ROIs.
+For $k>1$ correlation is significantly lower, but has a stable plateau with $r \approx -0.125$ up to $k=10$, after which correlation decreases further, reaching $r \approx -0.1$ at $k=50$.
+This implies that additional paths, if close to the shortest path, relate differently to functional connectivity than more distant paths.
+The scale of the standard deviation indicates that there is considerable variability between patients, yet ANOVA confirms significant differences between the distributions of each $k$ with $p \ll 0.001$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/k_dist_correlation_vs_k.png}
+    \caption{\textbf{Correlation of k-distance matrices and empirical FC.} Pearson correlation between k-distance matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error band.}
+    \label{fig:kdist_vs_fc}
+\end{figure}
+
+
+The global coupling strength $c=18$ used in \cite{kuramoto-eq} had to be adapted depending on the number of connections in the used connectivity matrices (also done in \cite{general_methods}).
+The optimization of the scaling factor with \texttt{scipy.optimize.scalar\_minimize} is shown in Figure \ref{fig:parameter_opt}, with the maximal correlation between simulated and empirical FC achieved with a scaling factor $f \approx 0.2098$. The $k$ values used for optimization (1,5,10,30) were chosen to put emphasis on the region of interest $k \leq 10$ and keep computation time low.
 
 \begin{figure}[h!]
     \centering
@@ -301,27 +319,18 @@ The global coupling strength $c=18$ used in \cite{kuramoto-eq} has to be adapted
     \label{fig:parameter_opt}
 \end{figure}
 
-In order to show how the structure of the k-distance matrices relates to empirical functional connectivity, the Pearson correlation between both matrices was calculated for each patient. The results were then plotted as the mean correlation and standard deviation as a function of $k$ (Fig. \ref{fig:kdist_vs_fc}). The first thing to notice is the negative sign of the correlation values. Since we correlate distance with functional correlation, this suggests that ROIs with higher k-distance between them exhibit lower functional correlation. One can also observe clear k-dependence, with the strongest correlation at $k=1$, which is equivalent to single shortest path connections between ROIs. For $k>1$ correlation is significantly lower, but has a stable plateau with $r \approx -0.125$ up to $k=10$, after which correlation decreases further, reaching $r \approx -0.1$ at $k=50$. This suggests that additional paths, if close to the shortest path, relate diffferently to functional connectivity than more distant paths.
-The scale of the standard deviation indicates that there is considerable variability between patients, yet ANOVA confirms significant differences between the distributions of each $k$ with $p \ll 0.001$.
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.9\textwidth]{../project_SOCS_code/figures/k_dist_correlation_vs_k.png}
-    \caption{\textbf{Correlation of k-distance matrices and empirical FC.} Pearson correlation between k-distance matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error band.}
-    \label{fig:kdist_vs_fc}
-\end{figure*}
+The optimal scaling factor scales the coupling strength to about one fifth of the original value, which is close to the ratio of the number of ROIs used in \cite{kuramoto-eq} (66) and the Brainnetome atlas (246).
+This confirms that the optimal coupling strength depends on the number of connections in the connectivity matrix.
 
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.9\textwidth]{../project_SOCS_code/figures/simulation_correlation_vs_k.png}
-    \caption{\textbf{Correlation of simulated FC and empirical FC.} Pearson correlation between simulated functional connectivity matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error bars.}
-    \label{fig:kdist_vs_fc}
-\end{figure*}
+With the optimized scaling factor, simulations for a selection of $k$ values were performed for all patients and resulted in a set of simulated FC matrices for each patient.
+Example simulations again using the averaged k-distance matrices over all patients for $k=1,5,25$ (Fig. \ref{fig:sim_fc_panel}) show clear differences compared to the empirical averaged FC (Fig. \ref{fig:avg_sc_fc} B).
+While regions of high correlation like around index 200 are captured by the simulations, the size and distribution of these regions differ significantly.
+It can also be observed that with increasing $k$, the simulated FC matrices become more uniform in color, similar to the k-distance matrices (Fig. \ref{fig:kdist_panel}).
+Regions of high correlation in simulated FC generally seem to have matching regions of low distance in the k-distance matrices.
+Direct pearson correlations between the averaged k-distance matrices and the averaged simulated FC matrices returned correlations of $-0.355$ for $k=1$, $-0.486$ for $k=5$, $-0.347$ for $k=25$, showing that even though there are similarities in structure, the simulated FC matrices differ significantly from the k-distance matrices and provide different information.
 
-
-\textcolor{cyan}{\lipsum[8-9]}
-
+The simulated FC matrices were also compared to the empirical FC matrices per patient using Pearson correlation (Fig. \ref{fig:sim_vs_fc}).
 
 \begin{figure}
     \centering
@@ -330,8 +339,22 @@ The scale of the standard deviation indicates that there is considerable variabi
     \label{fig:sim_fc_panel}
 \end{figure}
 
-\textcolor{cyan}{\lipsum[8-9]}
+Results from simulation contrast those obtained from direct correlation of k-distance matrices with empirical FC (Fig. \ref{fig:kdist_vs_fc}), suggesting that actually not shortest path communication, but communication using k-distance coupling with $k=8$ achieves the highest (now positive since we correlate simulated FC with empirical FC) mean correlation with empirical FC at $r \approx 0.056$. The shortest path coupling ($k=1$) even has the lowest average correlation of all simulated $k$, only reaching $r = 0.032$
+This indicates that actual brain dynamics may not rely solely on shortest path communication, but rather include a higher single digit combination of near-shortest paths.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/simulation_correlation_vs_k.png}
+    \caption{\textbf{Correlation of simulated FC and empirical FC.} Pearson correlation between simulated functional connectivity matrices and empirical functional connectivity matrices for all patients, shown as the mean with standard deviation as error bars.}
+    \label{fig:sim_vs_fc}
+\end{figure}
+
+
+In order to further investigate the variability between patients, the best $k$ value (highest correlation) was determined for each patient, both for the direct k-distance to empirical FC correlation and for the simulated to empirical FC correlation.
+These were then plotted as histograms (Fig. \ref{fig:best_k_hist}).
+For the direct correlation of k-distance matrices with empirical FC (Fig. \ref{fig:best_k_hist} A), the distribution of best $k$ values peaks strongly at $k=1$, though with some individuals having optimal correlation around $k=8$.
+One individual even has an optimal correlation at$k=49$, showing how different results can be even in healthy individuals.
+For the simulated to empirical FC correlation (Fig. \ref{fig:best_k_hist} B), the distribution is more spread out than in the previous case.
 
 \begin{figure}
     \centering
@@ -340,12 +363,9 @@ The scale of the standard deviation indicates that there is considerable variabi
     \label{fig:best_k_hist}
 \end{figure}
 
-
+In individual counts, $k=10$ actually has the highest number of patients with optimal correlation, though followed closely by $k=8$, which had the highest average correlation (Fig. \ref{fig:sim_vs_fc}). 15 individuals have their optimal correlation at $k=25, 35$ or $50$, again showing the high variability between individuals.
 
 %%% - E5 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 \section{\label{sec:conclusion}Conclusions and Outlook} %%% DO NOT CHANGE!
 
