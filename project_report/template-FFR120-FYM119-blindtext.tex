@@ -18,6 +18,7 @@
 %\usepackage[mathlines]{lineno}% Enable numbering of text and display math
 %\linenumbers\relax % Commence numbering lines
 \usepackage{xcolor}
+\usepackage[american]{babel}
 
 \usepackage{lipsum}
 
@@ -81,12 +82,6 @@ Additionally, studies have shown that including alternative pathways can improve
 Despite these insights, major gaps remain.
 In particular, there is no consensus over which kinds of paths or how many should be used for a signal to travel between ROIs.
 Seeking to answer these questions, in this study we investigate information transfer using a parametric model to capture the parameter values for which results from simulations based on structural connectomes most accurately reflect empirical patterns of brain activity.
-
-
-%Despite these insights, major gaps remain. In particular, it is not yet clear how many near-shortest paths, or what weighting of such paths, most accurately reflects empirical patterns of brain activity. Real neural communication likely balances efficiency with redundancy, robustness, and limited knowledge about the global network structure. This motivates the use of parametric models, which enable systematic exploration of different communication regimes by varying key parameters. 
-
-% In this study, we investigate information transfer using the Shortest Path Ensembles (SPE) model, a parametric framework that allows signals to traverse not only the shortest path between two regions but also a set of near-shortest alternatives. By continuously varying the number of allowed paths, the model spans communication regimes ranging from highly informed, efficient routing to minimally informed, diffuse propagation. Using structural connectomes and simulated time-resolved signal propagation, we examine which ranges of the SPE parameter best approximate empirical functional connectivity patterns derived from fMRI. Through this approach, we aim to clarify how the brain may flexibly combine efficiency and redundancy to support large-scale information flow.
-
 
 
 
@@ -158,15 +153,15 @@ Linear threshold models focus on the influence of local neighbourhoods and the a
 This makes them suitable to investigate the communication speed and efficiency of transmissions spreading over time.
 
 Several metrics, like diffusion efficiency and search information, use random walks as their basis, making biased random walks suitable for studies focusing on these metrics.
-They focus on the efficiency and accessibility of communication paths, linking global structural properties to functional correlations.
+They focus on the efficiency and accessibility of communication paths, linking global structural properties to functional connectivities.
 
 SPEs are inherently more selective, as they focus on the most efficient paths and their near alternatives \cite{review_methods}.
 The related $k$-shortest path length measures the distance between ROIs based on the lengths of the $k$-shortest paths, weighted by their accessibility compared to all other options on the path \cite{kshortest_original}.
 This creates a distance metric which also captures the accessibility or ease of traversal of the chosen paths, with a tight link to optimal path topology.
 
 Since we are interested in how tuning a parametric model changes the types of paths used in order to best match empirical results, the SPE model was chosen.
-Since $k$ determines the number of considered paths, it is easy to interpret compared to other, more abstract metrics (search information, diffusion efficiency) which may be necessary to explain results using biased random walks..
-We were also not interested in time-resolved propagation dynamics, making linear threshold models less suitable.
+Since $k$ determines the number of considered paths, it is easy to interpret compared to other, more abstract metrics (search information, diffusion efficiency) which may be necessary to explain results using biased random walks.
+% We were also not interested in time-resolved propagation dynamics, making linear threshold models less suitable.
 
 
 %%% - E3 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -182,7 +177,7 @@ We were also not interested in time-resolved propagation dynamics, making linear
     \centering
     \includegraphics[width=\textwidth]{workflow.png}
     \caption{{\bf Method overview.} The illustrated workflow summarizes the steps taken to simulate and evaluate the shortest-path ensemble model against empirical brain data for all patients. Structural connectivity matrices and fMRI time series from the provided dataset are used as inputs.
-    SC matrices are used to derive the k-distance matrices for $k$ ranging from 1 to 50. The obtained distance matrices are then used as coupling matrices in the Kuramoto model to simulate brain activity over time, resulting in simulated functional connectivity (FC) matrices. Empirical FC matrices are computed from the fMRI time series using Pearson correlation. Finally, the simulated FC matrices are compared to the empirical FC matrices using Pearson correlation to assess model performance across different values of $k$.
+    SC matrices are used to derive the k-distance matrices for $k$ ranging from 1 to 50. The obtained distance matrices are then used as coupling matrices in the Kuramoto model to simulate brain activity over time, resulting in simulated FC matrices. Empirical FC matrices are computed from the fMRI time series using Pearson correlation. Finally, the simulated FC matrices are compared to the empirical FC matrices using Pearson correlation to assess model performance across different values of $k$.
     }
     \label{workflow}
 \end{figure*}
@@ -209,7 +204,7 @@ Time steps of 0.72 seconds were used for 4800 measurements, which is equivalent 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/averaged_sc_fc.png}
-    \caption{\textbf{Averaged SC and FC matrix.} Matrices showing the averaged structural connectivity (A) and functional connectivity (B) over all patients. Color describes the connection strength or functional correlation between two ROIs respectively.}
+    \caption{\textbf{Averaged SC and FC matrix.} Matrices showing the averaged structural connectivity (A) and functional connectivity (B) over all patients. Color describes the connection strength or functional connectivity between two ROIs respectively.}
     \label{fig:avg_sc_fc}
 \end{figure}
 
@@ -220,7 +215,7 @@ For this, we compute the edge lengths between ROIs as $l_{u,v} = -\log(w_{u,v})$
 Using logarithmic transform creates edge lengths that increase the number of paths that are able to be incorporated in efficient communication.
 
 The topological length $d(\pi_{u,v})$ of a path $\pi_{u,v}$ between nodes $u$ and $v$ is then defined as the sum of the edge lengths along the path.
-The \texttt{scipy} implementation of Yen's algorithm (cite scipy) was used to compute the $k$ shortest paths between every pair of ROIs, for $k$ up to 50.
+The \texttt{scipy} \cite{scipy} implementation of Yen's algorithm was used to compute the $k$ shortest paths between every pair of ROIs, for $k$ up to 50.
 
 The k-shortest path length $D_k(s,t)$ between nodes $s$ and $t$ is then defined as the weighted average of the lengths of the $k$ shortest paths between them:
 
@@ -239,7 +234,13 @@ $\hat{P}(\pi_{s,t}^k)$ is the normalized probability $P(\pi_{s,t}^k)$ of the k-s
 $D_k(s,t)$ thus represents the combined distances of all k-shortest paths, weighted by their accessibility under random walk dynamics.
 For each patient and each value of $k$ from 1 to 50, we get a k-distance matrix containing the k-shortest path lengths between every pair of ROIs.
 
-{\bf Kuramoto Model.} In order to simulate brain activity based on the empirical brain structure we decided to model the brain regions as a network of coupled Kuramoto oscillators.
+{\bf Functional Connectivity (FC).} 
+Derived from ROI activity, functional connectivity describes the statistical relationships between ROI time series \cite{review_brain_structure_and_function}.
+The simplest way is to calculate the Pearson correlation coefficient between the time series of each pair of ROIs, resulting in a symmetric FC matrix (Fig. \ref{fig:avg_sc_fc} B).
+For each patient, we calculated the empirical FC matrix from the provided fMRI time series and from the simulated ROI activiy using Pearson correlation.
+
+{\bf Kuramoto Model.}
+In order to simulate brain activity based on the empirical brain structure we decided to model the brain regions as a network of coupled Kuramoto oscillators.
 It was chosen since it is simpler, yet with similar performance to more biophysically realistic (i.e. neural mass) models \cite{kuramoto-eq}, while still being more flexible than simple firing rate models, which use a decaying firing rate under influence of random noise and input from the network \cite{general_methods}.
 
 Defining $\theta(t)$ as the phase (frequency) of node $n \in \{ 1,\dots, N \}$ at time $t$, the dynamics of the system are goverend by the following equation \cite{kuramoto-eq}:
@@ -251,25 +252,35 @@ Defining $\theta(t)$ as the phase (frequency) of node $n \in \{ 1,\dots, N \}$ a
 The term $\omega_n$ represents the intrinsic angular frequency of each ROI, satisfying $\omega_n=2\pi f_n$, where $\nu_n$ is initially sampled from a fixed Gaussian distribution with mean $f_0 = 60 Hz$ and standard deviation $\sigma_f = 5$.
 $C_{np}$ is the relative coupling strength from node $p$ to node $n$, and $c$ is the global coupling strength, which scales all connection strengths.
 The delay in transmissions from $p$ to $n$ is incorporated through $\tau_{np}$, which depends on the distance between the nodes.
-Defining $L_{np}$ as one element of the distance matrix, and the average distance between nodes as $\langle L\rangle$, the delay is defined as $\tau_{np}=\langle \tau_{np}\rangle L_{np} /\langle L\rangle$, with $\langle \tau \rangle =11$ms.
+Defining $L_{np}$ as one element of the distance matrix, and the average distance between nodes as $\langle L\rangle$, the delay is defined as $\tau_{np}=\langle \tau \rangle L_{np} /\langle L\rangle$, with $\langle \tau \rangle =11$ms.
 Lastly, $\eta_n(t)$ represents noise present in the network, implemented as Gaussian white noise with mean 0 and standard deviation $\sigma_n = 3$.
 All parameter values were taken from \cite{kuramoto-eq}.
 
 In our case, the distance matrix $L$ is one of the k-distance matrices, while the coupling matrix $C$, also called adjaciency matrix, is calculated using $C_{np}=1/L_{np}$ $\forall n,p$.
 
-This allows us to simulate brain activity time series for each patient and each value of $k$, evolving the phases of all regions over time and finally obtaining activity time series by calculating $\sin(\theta_n(t))$.
-
-parameter optimization for $c$ using Brent's...
+This framework allows us to simulate brain activity time series for each patient and each value of $k$, evolving the phases of all ROIs over time and finally obtaining activity time series by calculating $\sin(\theta_n(t))$.
 
 
-{\bf Functional Correlation (FC).} 
-In brain-network modelling, this procedure is commonly used to measures the correlation structure of activity time series across brain regions, generally using an FC matrix \cite{general_methods}.
-Where each element of the matrix is the Pearson correlation coefficient between the time series of two brain regions.
-With this metric, an exhaustive comparison between empirical outcomes and simulated results will be performed.
-Although this measure does not cover all the characteristics of a brain's network, it works as a general reference for different ROIs' correlation.
+{\bf Simulation.}
+Due to the high computational cost of simulating the systems, we only simulated for a selection of $k$ values, namely $k \in \{ 1, 2, \dots, 10, 25, 35, 50 \}$.
+Simulations were performed for 5 seconds using a time step of 0.1 ms.
+FC matrices were calculated from the simulated activity after removing the first 500ms to allow the system to stabilize.
 
+{\bf Evaluation.}
+In order to evaluate the SPE model performance, we calculated the Pearson correlation between the upper triangle elements, excluding the diagonal.
+These correlations were then analyzed to determine the best performing $k$ values on a mean and per-patient basis.
+To check for significant differences between different $k$ values, Analysis of Variance (ANOVA) tests were performed, which check if the distributions between samples (here all simulations for a particular $k$) are significantly different.
 
-final analysis comparing FC to FC...
+{\bf Parameter Optimization.}
+The global coupling strength $c$ needs to be of the correct scale to ensure stability and validity of the system \cite{kuramoto-eq}.
+With more connections in the coupling matrix, the value of $c$ has to be smaller \cite{general_methods}.
+\cite{kuramoto-eq} proposes a value of $c = 18$ when using SC matrices with 66 ROIs as adjaciency matrices.
+Since our coupling matrices have 246 ROIs and are not directly comparable to SC matrices, we performed a parameter sweep to find the optimal scaling factor $s$ for $c = s \cdot 18$.
+For a particular value of $s$, simulations of 2 seconds using a stepsize of 0.1ms were performed for $k=1,5,10,30$ with three repetitions each. Upper triangle pearson correlations were calculated between simulated and empirical FC matrices and then averaged over all $k$ and repetitions to get a performance value.
+
+Initial tests suggested the performance function to have a unimodal maximum, which is why it was decided to optimize $s$ by minimizing the negative performance function with \texttt{scipy's} \cite{scipy} implementation of Brent's method in the bounded interval $[0.05, 1]$, iterating for 10 steps.
+It uses a combination of bisection, secant method and parabolic interpolation to find the minimum of a function without requiring derivatives, making it suitable for our optimization problem where the performance function may not be smooth or differentiable.
+
 
 %%% - E4 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -282,7 +293,7 @@ final analysis comparing FC to FC...
 %%% - B5 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B5 - and - E5 - must not appear in the final report 
 
-Using Equation (), matrices containing the k-shortest distance between every ROI were calculated for each patient, with $k$ ranging from 1 to 50. Figure \ref{fig:kdist_panel} shows three example k-distance matrices ($k=1,5,25$), obtained by averaging over all patients. It can be seen that for increasing values of $k$, the matrices become more uniform in color. This suggests that once many paths are considered, ROIs become more similar in terms of their k-distance, as signals can propagate through many alternative routes, creating a diffusive regime. For lower values of $k$, the matrices show more structure, indicating that certain ROIs form well connected clusters, i.e. the regions around the index 150 and 200 (Fig. \ref{fig:kdist_panel}, top).
+Figure \ref{fig:kdist_panel} shows three example k-distance matrices ($k=1,5,25$), obtained by averaging over all patients. It can be seen that for increasing values of $k$, the matrices become more uniform in color. This suggests that once many paths are considered, ROIs become more similar in terms of their k-distance, as signals can propagate through many alternative routes, creating a diffusive regime. For lower values of $k$, the matrices show more structure, indicating that certain ROIs form well connected clusters, i.e. the regions around the index 150 and 200 (Fig. \ref{fig:kdist_panel}, top).
 
 \begin{figure}
     \centering
@@ -295,7 +306,7 @@ Using Equation (), matrices containing the k-shortest distance between every ROI
 In order to show how the structure of the k-distance matrices relates to empirical functional connectivity, the Pearson correlation between both matrices was calculated for each patient.
 The results were then plotted as the mean correlation and standard deviation as a function of $k$ (Fig. \ref{fig:kdist_vs_fc}).
 The first thing to notice is the negative sign of the correlation values.
-Since we correlate distance with functional correlation, this suggests that ROIs with higher k-distance between them exhibit lower functional correlation.
+Since we correlate distance with functional connectivity, this implies that ROIs with higher k-distance between them exhibit lower functional connectivity.
 One can also observe clear k-dependence, with the strongest mean correlation at $k=1$ with $r \approx -0.129$, which is equivalent to single shortest path connections between ROIs.
 For $k>1$ correlation is significantly lower, but has a stable plateau with $r \approx -0.125$ up to $k=10$, after which correlation decreases further, reaching $r \approx -0.1$ at $k=50$.
 This implies that additional paths, if close to the shortest path, relate differently to functional connectivity than more distant paths.
@@ -309,8 +320,9 @@ The scale of the standard deviation indicates that there is considerable variabi
 \end{figure}
 
 
-The global coupling strength $c=18$ used in \cite{kuramoto-eq} had to be adapted depending on the number of connections in the used connectivity matrices (also done in \cite{general_methods}).
-The optimization of the scaling factor with \texttt{scipy.optimize.scalar\_minimize} is shown in Figure \ref{fig:parameter_opt}, with the maximal correlation between simulated and empirical FC achieved with a scaling factor $f \approx 0.2098$. The $k$ values used for optimization (1,5,10,30) were chosen to put emphasis on the region of interest $k \leq 10$ and keep computation time low.
+
+The optimization of the scaling factor $s$ scaling the global coupling strength $c$ is shown in Figure \ref{fig:parameter_opt}, with the maximal correlation between simulated and empirical FC achieved with a scaling factor $f \approx 0.2098$.
+% The $k$ values used for optimization (1,5,10,30) were chosen to put emphasis on the region of interest $k \leq 10$ and keep computation time low.
 
 \begin{figure}[!ht]
     \centering
