@@ -159,9 +159,10 @@ SPEs are inherently more selective, as they focus on the most efficient paths an
 The related $k$-shortest path length measures the distance between ROIs based on the lengths of the $k$-shortest paths, weighted by their accessibility compared to all other options on the path \cite{kshortest_original}.
 This creates a distance metric which also captures the accessibility or ease of traversal of the chosen paths, with a tight link to optimal path topology.
 
-Since we are interested in how tuning a parametric model changes the types of paths used in order to best match empirical results, the SPE model was chosen.
-Since $k$ determines the number of considered paths, it is easy to interpret compared to other, more abstract metrics (search information, diffusion efficiency) which may be necessary to explain results using biased random walks.
-% We were also not interested in time-resolved propagation dynamics, making linear threshold models less suitable.
+
+Since we are interested in how tuning a parametric model changes the paths used to match empirical results, the SPE model was chosen.
+The parameter $k$ directly determines the number of paths considered, making it more interpretable than abstract metrics like search information or diffusion efficiency required for biased random walks.
+We were also not interested in time-resolved dynamics, making linear threshold models unsuitable.
 
 
 %%% - E3 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -334,7 +335,6 @@ The optimization of the scaling factor $s$ scaling the global coupling strength 
 The optimal scaling factor scales the coupling strength to about one fifth of the original value, which is close to the ratio of the number of ROIs used in \cite{kuramoto-eq} (66) and the Brainnetome atlas (246).
 This confirms that the optimal coupling strength depends on the number of connections in the connectivity matrix.
 
-
 With the optimized scaling factor, simulations for a selection of $k$ values were performed for all patients and resulted in a set of simulated FC matrices for each patient.
 Example simulations again using the averaged k-distance matrices over all patients for $k=1,5,25$ (Fig. \ref{fig:sim_fc_panel}) show clear differences compared to the empirical averaged FC (Fig. \ref{fig:avg_sc_fc} B).
 While regions of high correlation like around index 200 are captured by the simulations, the size and distribution of these regions differ significantly.
@@ -382,24 +382,34 @@ In individual counts, $k=10$ actually has the highest number of patients with op
 \section{\label{sec:conclusion}Conclusions and Outlook} %%% DO NOT CHANGE!
 
 %%% - B6 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%%% Customize this part: text between - B6 - and - E6 - must not appear in the final report 
-\noindent
-\fbox{\parbox[t][][t]{\columnwidth}{
-\textbf{Points:} \fbox{\bf \textcolor{magenta}{4}} out of \textbf{44}
-}}
+%%% Customize this part: text between - B6 - and - E6 - must not appear in the final report
 
+First and foremost, it is important to note that our results are very limited and should not be given the same weight as more established findings in the field, especially with the low reported correlation values never exceeding $|r|=0.13$.
+Comparable studies using similar methods have reported higher correlations, e.g. $r=0.37$ in \cite{general_methods}, though they also used different datasets.
 
-{\color{red} k distance always is the weighted value of all paths up to k, but maybe one should also just look at other combinations of paths, maybe k3 is not used but 4 and 6 etc. this is a limitation of what we did
+Our simulations are much shorter in time than the empirical time series, limiting comparability tue to different timescales.
+We also did not convert the simulated data to BOLD signal, which would be necessary for more accurate comparisons but requires more complicated transformations of the signal using the Balloon-Windkessel haemodynamic model \cite{balloon_windkessel}.
 
-kuramoto is a simplification, and we will not have simulated for the same timescales as the empirical measurements, this may be a problem with comparability, though I did ensure that the oscillators had stabilized within the time frame that i simulated
+This very much limits the interpretability of our results, which should be seen as preliminary findings requiring further validation.
+Nevertheless, some interesting trends can be observed.
 
-also in actuality we should convert the data that we get to BOLD signal, I have some code from a guy that supposedly does this, maybe i can still add that.}
+Our results regarding the correlation between k-distance matrices and empirical FC suggest that $k$ values below 10 have a stronger relationship to functional connectivity than larger $k$ values, with $k=1$ here even showing strongest correlation by far.
+Simulating brain activity using the Kuramoto model achieved best results for $k=8$, also adding to this sentiment.
 
-The optimal parameters curently obtained for the model vary strongly depending on the k-distance matrix used, but they are mostly in the same order of magnitude as the ones proposed in \cite{kuramoto-eq}.
+Previous work has shown that using logarithmic computation of edge lengths results in the proportion of edges participating in at least one of the k-shortest paths saturating around $k=5$ \cite{kshortest_original} \cite{kshortest_other_species}.
+This could suggest that brain communication maximises the number of edges used for communication while still relying on near-optimal paths for transmission.
 
-Further investigation will be conducted to see if the model can be improved to obtain statistically significant results.
+Individual patients show high variability in their optimal $k$ values, both for direct k-distance to empirical FC correlation and for simulated to empirical FC correlation.
+Other work has shown that the SPE model can be used to leverage this variability to classify individuals not only in humans, but also macaques and mice \cite{kshortest_other_species}.
+It seems likely that brain communication is highly individual, necessitating personalized models to accurately capture the underlying dynamics.
 
-The base correlation of the k-distance matrices against empirical FC is interesting due to the suggested additional importance of paths with length $\approx$ 5 in addition to shortest path signalling, which has the highest correlation.
+To further validate our findings, it would be necessary to perform more extensive parameter optimization and longer simulations, including more $k$ values and longer simulation times to better match empirical data and related work.
+If results are confirmed, it would be interesting to investigate further details of $k$ dependence for brain communication.
+A more thorough investigation of the path selection could be performed, e.g. by allowing free combinations between the $k$-shortest paths instead of the weighted average.
+Other metrics like quasiperiodic spatiotemporal patterns (QPP) or recurrence quantification analysis (RQA) could be used to evaluate the simulations beyond Pearson correlation of FC matrices, giving a more complete picture of how well the model captures empirical dynamics \cite{general_methods}.
+
+In conclusion, our results show interesting potential directions for the improvement of brain communication models, further bridging the gap between pure structural connectivity and functional dynamics through simulation.
+
 %%% - E6 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -411,7 +421,9 @@ The base correlation of the k-distance matrices against empirical FC is interest
 %%% - B7 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%% Customize this part: text between - B7 - and - E7 - must not appear in the final report 
 \noindent
-Lukas Prader read the articles regarding the information propagation and implemented all the code needed for this project. Daniel P. Fonseca red  the articles regarding previous research in the field and wrote this article. Both authors, nevertheless, made valuable contributions for the complementary work. \textit{Note:} Due to a mistake when creating the GitHub repository, all of Daniel's contributions have been assigned to Lukas' profile.
+Both authors conceptualized the project and drafted section \ref{sec:method}. Daniel Peña Fonseca drafted sections \ref{sec:intro} and \ref{sec:overview}.
+Lukas Prader wrote the entire code used for the project and drafted sections \ref{sec:results} and \ref{sec:conclusion}.
+Both authors reviewed and edited the final report.
 %%% - E7 - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
