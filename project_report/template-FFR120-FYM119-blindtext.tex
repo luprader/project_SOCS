@@ -193,7 +193,7 @@ The measurements concerned 246 brain ROIs defined by the Brainnetome atlas \cite
 % (see Fig. \ref{fig:brain_atlas_views} for a visualization of the atlas centroids).
 % \begin{figure}
 %     \centering
-%     \includegraphics[width=0.9\columnwidth]{figures/brain_atlas_views.png}
+%     \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/brain_atlas_views.png}
 %     \caption{\textbf{Brain atlas views.} Visualization of the Brainnetome atlas showing the 246 brain regions of interest (ROIs).}
 %     \label{fig:brain_atlas_views}
 % \end{figure}
@@ -204,7 +204,7 @@ Time steps of 0.72 seconds were used for 4800 measurements, which is equivalent 
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\columnwidth]{figures/averaged_sc_fc.png}
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/averaged_sc_fc.png}
     \caption{\textbf{Averaged SC and FC matrix.} Matrices showing the averaged structural connectivity (A) and functional connectivity (B) over all patients for illustration purposes. Color describes the connection strength or functional connectivity between two ROIs respectively.}
     \label{fig:avg_sc_fc}
 \end{figure}
@@ -297,7 +297,7 @@ Figure \ref{fig:kdist_panel} shows three example $k$-distance matrices ($k=1,5,2
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\columnwidth]{figures/averaged_k_dist_matrices.png}
+    \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/averaged_k_dist_matrices.png}
     \caption{\textbf{Example $k$-distance matrices.} Three $k$-distance matrices showing $k$=1 (top), $k$=5 (middle) and $k$=25 (bottom), obtained by averaging over all patients. Color describes the $k$-shortest path length (Eq. \ref{eq:kdist}) between two ROIs.}
     \label{fig:kdist_panel}
 \end{figure}
@@ -315,7 +315,7 @@ The scale of the standard deviation indicates that there is considerable variabi
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\columnwidth]{figures/k_dist_correlation_vs_k.png}
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/k_dist_correlation_vs_k.png}
     \caption{\textbf{Correlation of $k$-distance matrices and empirical FC.} Pearson correlation between $k$-distance matrices and empirical FC matrices for all patients, shown as mean with standard deviation as error band.}
     \label{fig:kdist_vs_fc}
 \end{figure}
@@ -327,7 +327,7 @@ The optimization of the scaling factor $s$ scaling the global coupling strength 
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\columnwidth]{figures/parameter_optimisation.png}
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/parameter_optimisation.png}
     \caption{\textbf{Parameter optimization.} Optimization results of the scaling factor $s$ for the Kuramoto global coupling factor $c$. Colored points show results for different values of $k$, where each of these points is the mean of 3 repetitions. Black crosses show the average correlation of the tested $k$ values for each value of $s$.}
     \label{fig:parameter_opt}
 \end{figure}
@@ -346,7 +346,7 @@ The simulated FC matrices were also compared to the empirical FC matrices per pa
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\columnwidth]{figures/averaged_simulated_fc_matrices.png}
+    \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/averaged_simulated_fc_matrices.png}
     \caption{\textbf{Example FC matrices.} Three simulated FC matrices showing $k$=1 (top), $k$=5 (middle) and $k$=25 (bottom), obtained by averaging over all patients. Color describes the functional correlation between two ROIs.}
     \label{fig:sim_fc_panel}
 \end{figure}
@@ -356,7 +356,7 @@ This indicates that actual brain dynamics may not rely solely on shortest path c
 
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{figures/simulation_correlation_vs_k.png}
+    \includegraphics[width=\columnwidth]{../project_SOCS_code/figures/simulation_correlation_vs_k.png}
     \caption{\textbf{Correlation of simulated FC and empirical FC.} Pearson correlation between simulated FC matrices and empirical FC matrices for all patients, shown as mean with standard deviation as error bars.}
     \label{fig:sim_vs_fc}
 \end{figure}
@@ -372,7 +372,7 @@ In individual counts, $k=10$ actually has the highest number of patients with op
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\columnwidth]{figures/best_k_histograms.png}
+    \includegraphics[width=0.9\columnwidth]{../project_SOCS_code/figures/best_k_histograms.png}
     \caption{\textbf{Distribution of best $k$ per patient.} Histograms showing the distribution of best $k$ values (strongest correlation) per patient, for the correlation between $k$-distance matrices and empirical FC (A) and for the correlation between simulated FC and empirical FC (B).}
     \label{fig:best_k_hist}
 \end{figure}
